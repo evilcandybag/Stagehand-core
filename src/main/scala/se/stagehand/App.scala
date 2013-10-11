@@ -1,15 +1,20 @@
 package se.stagehand
 
+import scala.swing._
+
 /**
  * @author ${user.name}
  */
 object App {
-  
-  def foo(x : Array[String]) = x.foldLeft("")((a,b) => a + b)
-  
+    
   def main(args : Array[String]) {
-    println( "Hello World!" )
-    println("concat arguments = " + foo(args))
+    val frame = new Frame
+    val panel = new BorderPanel
+    
+    frame.contents = panel
+    
+    frame.visible = true
+    
   }
 
 }
