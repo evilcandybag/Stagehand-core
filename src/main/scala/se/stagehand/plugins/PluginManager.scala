@@ -1,65 +1,47 @@
 package se.stagehand.plugins
 
 import java.io.File
-import org.clapper.classutil.ClassFinder
-import grizzled.slf4j.Logger
 import javax.swing.filechooser.FileNameExtensionFilter
 import java.io.FileFilter
 import java.util.jar.JarFile
 import java.net.URLClassLoader
 import java.util.jar.JarEntry
+import scala.xml.XML
 
 object PluginManager {
   
-  var pluginMap = Map[String, EffectPlugin]()
-  val logger = Logger(PluginManager.getClass())
+  private var pluginMap = Map[String, EffectPlugin]()
   
-//  def init() {
-//    val classpath = List(".").map(new File(_))
-//    println(classpath)
-//    val finder = ClassFinder(classpath)
-//    val classes = finder.getClasses
-//    val classMap = ClassFinder.classInfoMap(classes)
-//    val plugins = ClassFinder.concreteSubclasses("se.stagehand.plugins.EffectPlugin", classMap)
-// 
-//    plugins.foreach {
-//      pluginString =>
-//        val plugin = Class.forName(pluginString.name).newInstance().asInstanceOf[EffectPlugin]
-//        pluginMap += (plugin.name -> plugin)
-//    }
-//  }
-  
-def init() {
+  def init() {
     val pluginDir = new File("plugins")
     val files = pluginDir.listFiles(new FileFilter(){
       def accept(x:File) = x.getPath().endsWith("jar")
     })    
-    files.map(x => println(x.toString()))
     
-    val classes = files.map(loadClasses(_))
-//    val finder = ClassFinder(files)
-//    val classes = finder.getClasses
-//    val classMap = ClassFinder.classInfoMap(classes)
-//    val plugins = ClassFinder.concreteSubclasses("se.stagehand.plugins.EffectPlugin", classMap)
-//    
-//    plugins.foreach {
-//      pluginString => val plugin = Class.forName(pluginString.name).newInstance().asInstanceOf[EffectPlugin]
-//      pluginMap += (plugin.name -> plugin)
-//    }
+    val classes = files.map(loadPluginClass(_))
+    
+    classes.foreach(plugin => pluginMap += (plugin.name -> plugin))
+    
   }
   
-  def getPlugin(name: String) {
-    
+  def getPlugin(name: String):Option[EffectPlugin] = {
+    if (pluginMap.isEmpty) init
+    pluginMap.get(name)
+  }
+  
+  def getPlugins():Array[EffectPlugin] = {
+    if (pluginMap.isEmpty) init
+    pluginMap.toArray.map(_._2)
   }
   
   /**
    * Clumsy way to load classes
    */
-  private def loadClasses[T](jar: File):Array[T] = {
+  private def loadPluginClass(jar: File):EffectPlugin = {
     val file = new JarFile(jar)
     val e = file.entries()
     val urls = Array( jar.toURL() )
-    val urlLoader = new URLClassLoader(urls)
+    val urlLoader = URLClassLoader.newInstance(urls)
     
     var classes: List[String] = List()
     var conf: JarEntry = null
@@ -73,7 +55,17 @@ def init() {
         conf = je
       }
     }
+    classes.map(println(_))
+    val stream = file.getInputStream(conf)
+    val xml = XML.load(stream)
+    val classname = (xml \\ "pluginclass").text
     
-    null.asInstanceOf[Array[T]]
+    classes = classes.filter(_.endsWith(classname))
+    
+    println(classes)
+    
+    val c = urlLoader.loadClass(classes.head)
+    
+    c.newInstance().asInstanceOf[EffectPlugin]
   }
 }

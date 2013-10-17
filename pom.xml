@@ -59,46 +59,6 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-    	<groupId>org.ow2.asm</groupId>
-    	<artifactId>asm-commons</artifactId>
-    	<version>4.1</version>
-    </dependency>
-    <dependency>
-    	<groupId>org.ow2.asm</groupId>
-    	<artifactId>asm</artifactId>
-    	<version>4.1</version>
-    </dependency>
-    <dependency>
-    	<groupId>org.clapper</groupId>
-    	<artifactId>classutil_2.10</artifactId>
-    	<version>1.0.3</version>
-    </dependency>
-    <dependency>
-    	<groupId>org.clapper</groupId>
-    	<artifactId>grizzled-scala_2.10</artifactId>
-    	<version>1.1.4</version>
-    </dependency>
-    <dependency>
-    	<groupId>org.clapper</groupId>
-    	<artifactId>grizzled-slf4j_2.10</artifactId>
-    	<version>1.0.1</version>
-    </dependency>
-    <dependency>
-    	<groupId>ch.qos.logback</groupId>
-    	<artifactId>logback-core</artifactId>
-    	<version>1.0.13</version>
-    </dependency>
-    <dependency>
-    	<groupId>org.slf4j</groupId>
-    	<artifactId>slf4j-api</artifactId>
-    	<version>1.7.5</version>
-    </dependency>
-    <dependency>
-    	<groupId>ch.qos.logback</groupId>
-    	<artifactId>logback-classic</artifactId>
-    	<version>1.0.13</version>
-    </dependency>
-    <dependency>
     	<groupId>org.scala-lang</groupId>
     	<artifactId>scala-swing</artifactId>
     	<version>${scala.version}</version>
