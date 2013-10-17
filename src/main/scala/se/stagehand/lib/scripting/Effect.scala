@@ -18,4 +18,8 @@ trait Effect {
   val editorComponent: EditorComponent
   
   val playerComponent: PlayerComponent
+  
+}
+object Effect {
+  implicit def getEditorPanel(in:Effect):Panel = in.editorComponent.getEditorGUI
 }
