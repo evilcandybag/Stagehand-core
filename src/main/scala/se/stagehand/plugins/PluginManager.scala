@@ -55,14 +55,12 @@ object PluginManager {
         conf = je
       }
     }
-    classes.map(println(_))
     val stream = file.getInputStream(conf)
     val xml = XML.load(stream)
     val classname = (xml \\ "pluginclass").text
     
     classes = classes.filter(_.endsWith(classname))
     
-    println(classes)
     
     val c = urlLoader.loadClass(classes.head)
     
