@@ -1,9 +1,11 @@
 bin/
 target/
+plugins/
 
 .classpath
 .project
 .settings
+.cache
 
 *.class
 *.log
