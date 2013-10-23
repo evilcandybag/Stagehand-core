@@ -1,4 +1,4 @@
-package se.stagehand
+package se.stagehand.gui
 
 import scala.swing.FlowPanel
 
