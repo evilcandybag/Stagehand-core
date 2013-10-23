@@ -1,5 +1,7 @@
 package se.stagehand.plugins
 
+import se.stagehand.lib.scripting._
+
 /**
  * Base trait for plugins.
  */
@@ -9,4 +11,14 @@ trait Plugin {
    */
   val name: String
 
+}
+object Plugin {
+  
+  def newInstance(e:Effect):Effect = {
+    e.getClass.newInstance().asInstanceOf[e.type]
+  }
+  
+  def newInstance(s: ScriptComponent):ScriptComponent = {
+    s.getClass.newInstance().asInstanceOf[s.type]
+  }
 }

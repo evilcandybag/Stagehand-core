@@ -9,17 +9,6 @@ import scala.xml._
  * Effects have an editor component where the commands are defined, and player 
  * component where commands are executed. 
  */
-trait Effect {
-  /**
-   * The name of the Effect as shown in the editor. 
-   */
-  def displayName:String
+trait Effect extends StagehandComponent {
   
-  val editorComponent: EditorComponent
-  
-  val playerComponent: PlayerComponent
-  
-}
-object Effect {
-  implicit def getEditorPanel(in:Effect):Panel = in.editorComponent.getEditorGUI
 }

@@ -1,8 +1,10 @@
 package se.stagehand.lib.scripting
 
+import scala.xml.Elem
+
 /**
- * A component used in scripting Stages.
+ * The component that decides how effects are used.
  */
-trait ScriptComponent {
+trait ScriptComponent extends StagehandComponent {
 
 }
