@@ -7,6 +7,6 @@ class ${artifactId}Plugin extends ScriptPlugin {
 
   val name = "${artifactId}"
     
-  def getEffects(): Array[ScriptComponent] = Array(new ${artifactId}Script)
+  def scriptcomponents: Array[ScriptComponent] = Array(new ${artifactId}Script)
   
 }
