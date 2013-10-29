@@ -9,8 +9,12 @@ import se.stagehand.gui.components._
  */
 class SideMenu extends BoxPanel(Orientation.Vertical) {
   
-  border = Swing.EmptyBorder(5,5,5,5)
+  border = Swing.EtchedBorder(Swing.Raised)
+  PluginManager.scriptPlugins.foreach( x =>  
+    x.scriptcomponents.foreach( y => 
+      contents += y
+    )
+  )
   
-  ScriptGUI.menuList(PluginManager.scriptPlugins).foreach(contents += _)
 
 }
