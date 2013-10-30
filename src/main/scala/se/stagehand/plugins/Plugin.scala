@@ -11,6 +11,10 @@ trait Plugin {
    */
   val name: String
 
+  /**
+   * A list of all the ComponentGUIs
+   */
+  val guis: List[ComponentGUI]
 }
 object Plugin {
   
