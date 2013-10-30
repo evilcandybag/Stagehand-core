@@ -3,6 +3,7 @@
   <id>quickstart</id>
   <sources>
     <source>src/main/scala/Plugin.scala</source>
-    <source>src/main/scala/Effect.scala</source>
+    <source>src/main/scala/Script.scala</source>
+    <source>src/main/scala/GUI.scala</source>
   </sources>
 </archetype>

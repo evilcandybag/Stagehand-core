@@ -68,6 +68,11 @@
     	<artifactId>scala-swing</artifactId>
     	<version>${scala.version}</version>
     </dependency>
+    <dependency>
+    	<groupId>se.stagehand</groupId>
+    	<artifactId>Stagehand-editor</artifactId>
+    	<version>0.0.1-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -128,14 +133,14 @@
             <configuration>
               <artifactItems>
                 <artifactItem>
-                  <groupId>se.stagehand</groupId>
-  				  <artifactId>test-plugin</artifactId>
+                  <groupId>${project.groupId}</groupId>
+  				  <artifactId>${project.artifactId}</artifactId>
                   <version>${project.version}</version>
                   <type>jar</type>
                   <overWrite>true</overWrite>
                   <!-- THIS IS A VERY UGLY WAY TO DO IT; MIGHT WANNA CHANGE TO COOLER STUFF IN TEH FUTUR -->
                   <outputDirectory>${project.build.directory}/../../Stagehand-editor/plugins/</outputDirectory>
-                  <destFileName>${project.artifactId}.jar</destFileName>
+                  <destFileName>${project.artifactId}-${project.version}.jar</destFileName>
                 </artifactItem>
               </artifactItems>
               <outputDirectory>${project.build.directory}/wars</outputDirectory>

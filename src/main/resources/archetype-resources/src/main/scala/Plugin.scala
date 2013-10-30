@@ -1,7 +1,7 @@
 package ${groupId}
 
 import se.stagehand.plugins._
-import se.stagehand.lib.scripting.Effect
+import se.stagehand.lib.scripting._
 
 class ${artifactId}Plugin extends ScriptPlugin {
 
