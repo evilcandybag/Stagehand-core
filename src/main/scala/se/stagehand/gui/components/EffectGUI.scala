@@ -1,5 +1,7 @@
 package se.stagehand.gui.components
 
-class EffectGUI {
+import se.stagehand.plugins.ComponentGUI
+
+trait EffectGUI extends ComponentGUI {
 
 }

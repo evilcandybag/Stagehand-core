@@ -9,9 +9,13 @@ import se.stagehand.plugins._
  * Wrapper trait for adding GUI to ScriptComponents. Have an object implement this
  * trait to enable automatic wrapping of your ScriptComponents.
  */
-trait ScriptGUI[T <: ScriptComponent] {
+trait ScriptGUI extends ComponentGUI {
   
-  implicit def menuItem(script: T): AbstractScriptButton[T]
-  implicit def editorNode(script: T): AbstractScriptNode[T]
+  def register {
+    GUIManager.register(peer, this)
+  }
+  
+  def menuItem(script: ScriptComponent): Button
+  def editorNode(script: ScriptComponent): EditorNode
   
 }
