@@ -13,6 +13,8 @@ import se.stagehand.gui.EditorNode
  * to limit all the slasky GUI coding to here. 
  */
 object GUIManager {
+  
+  var gotScript:Option[ScriptComponent] = None
 
   private var sgui: Map[Class[_],ComponentGUI] = Map()
   
