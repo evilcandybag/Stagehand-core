@@ -1,0 +1,12 @@
+[submodule "Stagehand-lib"]
+	path = Stagehand-lib
+	url = git@github.com:evilcandybag/Stagehand-lib.git
+[submodule "Stagehand-editor"]
+	path = Stagehand-editor
+	url = git@github.com:evilcandybag/Stagehand-editor.git
+[submodule "Stagehand-effect-plugin"]
+	path = Stagehand-effect-plugin
+	url = git@github.com:evilcandybag/Stagehand-effect-plugin.git
+[submodule "Stagehand-script-plugin"]
+	path = Stagehand-script-plugin
+	url = git@github.com:evilcandybag/Stagehand-script-plugin.git

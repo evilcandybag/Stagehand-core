@@ -7,9 +7,9 @@
   <name>Stagehand-core</name>
   <description>Superpackage for the Stagehand-lib, Stagehand-editor and Stagehand-player projects, as well as the project archetypes for plugins</description>
   <modules>
-  	<module>../Stagehand-editor</module>
-  	<module>../Stagehand-lib</module>
-  	<module>../Stagehand-effect-plugin</module>
-  	<module>../Stagehand-script-plugin</module>
+  	<module>./Stagehand-editor</module>
+  	<module>./Stagehand-lib</module>
+  	<module>./Stagehand-effect-plugin</module>
+  	<module>./Stagehand-script-plugin</module>
   </modules>
 </project>
