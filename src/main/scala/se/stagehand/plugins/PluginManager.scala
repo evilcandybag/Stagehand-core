@@ -21,14 +21,14 @@ object PluginManager {
     val files = pluginDir.listFiles(new FileFilter(){
       def accept(x:File) = x.getPath().endsWith("jar")
     })    
+    if (files != null) {
+      val classes = files.map(loadPluginClass(_))
     
-    val classes = files.map(loadPluginClass(_))
-    
-    classes.foreach(_ match {
-      case p if p.isInstanceOf[EffectPlugin] => effectsMap += (p.name -> p.asInstanceOf[EffectPlugin])
-      case p if p.isInstanceOf[ScriptPlugin] => scriptMap += (p.name -> p.asInstanceOf[ScriptPlugin])
-    })
-    
+      classes.foreach(_ match {
+        case p if p.isInstanceOf[EffectPlugin] => effectsMap += (p.name -> p.asInstanceOf[EffectPlugin])
+        case p if p.isInstanceOf[ScriptPlugin] => scriptMap += (p.name -> p.asInstanceOf[ScriptPlugin])
+      })
+    } 
   }
   
   /**
