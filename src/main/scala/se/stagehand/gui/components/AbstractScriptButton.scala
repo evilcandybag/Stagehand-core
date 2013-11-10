@@ -2,6 +2,7 @@ package se.stagehand.gui.components
 
 import se.stagehand.lib.scripting.ScriptComponent
 import scala.swing.Button
+import scala.swing.event.MouseClicked
 
 /**
  * Class for defining the button shown as a menu item for scripts.
@@ -9,6 +10,11 @@ import scala.swing.Button
 abstract class AbstractScriptButton(peer: ScriptComponent) extends Button {
   
   type peertype
-  
   text = peer.displayName
+  listenTo(mouse.clicks)
+  
+  reactions += {
+    case e:MouseClicked => GUIManager.gotScript = Some(peer)
+  }
+  
 }
