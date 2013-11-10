@@ -1,0 +1,15 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>se.stagehand</groupId>
+  <artifactId>Stagehand-core</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>Stagehand-core</name>
+  <description>Superpackage for the Stagehand-lib, Stagehand-editor and Stagehand-player projects, as well as the project archetypes for plugins</description>
+  <modules>
+  	<module>../Stagehand-editor</module>
+  	<module>../Stagehand-lib</module>
+  	<module>../Stagehand-effect-plugin</module>
+  	<module>../Stagehand-script-plugin</module>
+  </modules>
+</project>
