@@ -77,3 +77,9 @@ trait Resizable extends Component{
             resizestart = null
     }
 }
+
+trait QuickSubmit extends TextField {
+  reactions += {
+    case e:KeyTyped if e.char == '\n' || e.char == '\t' => publish(EditDone(this))
+  }
+}
