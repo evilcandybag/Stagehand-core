@@ -11,7 +11,7 @@ abstract class StagehandComponent(ident: Int) {
   val id = ident
   ID.add(id, this)
   
-  val displayName:String
+  def componentName:String
   
   /**
    * Generate instruction set for the plugin. Used inside the editor to generate 
