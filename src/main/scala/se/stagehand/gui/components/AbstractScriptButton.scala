@@ -10,7 +10,7 @@ import scala.swing.event.MouseClicked
 abstract class AbstractScriptButton(peer: ScriptComponent) extends Button {
   
   type peertype
-  text = peer.displayName
+  text = peer.componentName
   listenTo(mouse.clicks)
   
   reactions += {
