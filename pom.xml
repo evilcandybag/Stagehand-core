@@ -11,5 +11,6 @@
   	<module>./Stagehand-lib</module>
   	<module>./Stagehand-effect-plugin</module>
   	<module>./Stagehand-script-plugin</module>
+  	<module>../Stagehand-plugins</module>
   </modules>
 </project>
