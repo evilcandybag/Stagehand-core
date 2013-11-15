@@ -6,6 +6,9 @@ import se.stagehand.plugins.ComponentGUI
 import se.stagehand.plugins.Plugin
 import se.stagehand.plugins.PluginManager
 import se.stagehand.gui.EditorNode
+import scala.collection.immutable.ListSet
+import scala.swing.Component
+import scala.xml.Elem
 
 
 /**
@@ -17,11 +20,16 @@ object GUIManager {
   var gotScript:Option[ScriptComponent] = None
 
   private var sgui: Map[Class[_],ComponentGUI] = Map()
+  private var _comps: Set[EditorNode] = ListSet()
   
   def register(c: Class[_],s: ComponentGUI) {
     if (!sgui.contains(c)) {
       sgui += (c -> s)
     }
+  }
+  
+  def register(gui:EditorNode) {
+    _comps += gui
   }
   
   def registered(c: Class[_]): Boolean = {
@@ -37,10 +45,20 @@ object GUIManager {
   
   def menuItem(sc: ScriptComponent): Button = {
     getGUI[ScriptGUI](sc.getClass).menuItem(sc)
+    //menuItems are always there, no need to register...
   }
   def editorNode(sc: ScriptComponent): EditorNode = {
-    getGUI[ScriptGUI](sc.getClass).editorNode(sc)
+    val gui = getGUI[ScriptGUI](sc.getClass).editorNode(sc)
+    register(gui)
+    gui
   }
+  
+  def guiXML:Elem = 
+    <nodes>
+	  {
+    	_comps.map(_.locationXML)
+	  }
+    </nodes>
   
   private def init {
     PluginManager.scriptPlugins.foreach(x => x.guis.foreach(y => 
