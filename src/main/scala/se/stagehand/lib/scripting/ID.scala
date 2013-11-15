@@ -26,5 +26,6 @@ object ID {
     val sc = pool.apply(i)
     return sc.asInstanceOf[T]
   }
+  def allXML = <stage>{for (s <- pool.values) yield s.generateInstructions}</stage>
 
 }

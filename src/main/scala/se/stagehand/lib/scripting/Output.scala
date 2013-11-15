@@ -35,5 +35,5 @@ trait Output extends ScriptComponent {
   def signal(msg: ScriptMessage): Unit 
   
   def outputsXML: Elem = 
-    <outputs>_receivers.map(_.idXML)</outputs>
+    <outputs>{_receivers.map(_.idXML)}</outputs>
 }
