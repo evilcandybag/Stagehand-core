@@ -1,6 +1,6 @@
 package se.stagehand.lib.scripting
 
-import scala.xml.Elem
+import scala.xml._
 import scala.actors.Actor
 
 /**
@@ -19,10 +19,29 @@ abstract class ScriptComponent(id: Int) extends StagehandComponent(id) {
     }
   }
   
-  override def generateInstructions: Elem = 
+  override def generateInstructions: Node = 
     <script class={this.getClass().getName()}>{idXML}</script>
+    
+  override def readInstructions(in:Node) {
+    if (in.label != "script" || (in \ "@class").text != this.getClass.getName) {
+      throw new IllegalArgumentException("Illegal XML for " + this.getClass().getName())
+    }
+    
+  }
 
   
+}
+
+object ScriptComponent {
+  def fromXML[T <: ScriptComponent](e:Node):T = {
+    val className = (e \ "@class").text
+    val loader = ClassLoader.getSystemClassLoader()
+    
+    val c = loader.loadClass(className)
+    val sc = c.newInstance.asInstanceOf[T]
+    sc.readInstructions(e)
+    sc
+  }
 }
 
 /**

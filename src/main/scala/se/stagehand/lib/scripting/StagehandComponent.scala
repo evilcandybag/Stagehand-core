@@ -22,12 +22,12 @@ abstract class StagehandComponent(ident: Int) {
    *  	<class name>
    * </effect or script>
    */
-  def generateInstructions: Elem
+  def generateInstructions: Node
   
   /**
    * Load instructions for the player. 
    */
-  def readInstructions(in: Elem)
+  def readInstructions(in: Node)
   
   /**
    * Execute the given instructions over the assigned targets. 
@@ -44,5 +44,6 @@ abstract class StagehandComponent(ident: Int) {
   	case _ => error("Can only add children to elements!")
   }
   def idXML: Elem = <id>{id}</id>
+  override def toString = componentName + "{" + id + "}"
   
 }
