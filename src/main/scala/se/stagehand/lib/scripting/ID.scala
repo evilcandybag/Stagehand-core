@@ -15,7 +15,13 @@ object ID {
   }
   
   def add(k: Int, sc: StagehandComponent) {
-    pool += (k -> sc)
+    println(k + " " + sc)
+    if (!pool.contains(k)) {
+      pool += (k -> sc)
+    } else {
+      throw new IllegalArgumentException("Component ID needs to be unique!")
+    }
+    
   }
   def add(sc:StagehandComponent): Int = {
     val i = unique
@@ -26,6 +32,6 @@ object ID {
     val sc = pool.apply(i)
     return sc.asInstanceOf[T]
   }
-  def allXML = <stage>{for (s <- pool.values) yield s.generateInstructions}</stage>
+  def allXML = <components>{for (s <- pool.values) yield s.generateInstructions}</components>
 
 }
