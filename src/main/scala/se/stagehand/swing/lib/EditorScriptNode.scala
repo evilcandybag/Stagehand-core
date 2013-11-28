@@ -1,6 +1,5 @@
-package se.stagehand.gui.components
+package se.stagehand.swing.lib
 
-import se.stagehand.gui._
 import se.stagehand.lib.scripting._
 import scala.swing._
 import scala.swing.BorderPanel.Position
@@ -9,12 +8,25 @@ import java.awt.Color
 import scala.collection.immutable.ListSet
 import java.awt.BasicStroke
 import java.awt.geom.Line2D
+import se.stagehand.swing.gui.Movable
+import scala.xml.Elem
+
 
 /**
  * Class for defining nodes in the editor graph for a script. 
  */
-abstract class AbstractScriptNode(script: ScriptComponent) extends EditorNode(script) {
-
+abstract class EditorScriptNode[T <: ScriptComponent](sc: T) extends BorderPanel with Movable with ScriptNode[T] {
+  listenTo(mouse.clicks)
+  listenTo(mouse.moves)
+  visible = true
+  
+  opaque = false
+  
+  private val _script = sc
+  def script = _script
+  
+  def dascript:T = return script
+		
   val title: Label = new Label(displayName) {
     this.listenTo(mouse.clicks)
     this.reactions += {
@@ -51,16 +63,16 @@ abstract class AbstractScriptNode(script: ScriptComponent) extends EditorNode(sc
   
 }
 
-trait InputGUI extends AbstractScriptNode {
-  val inCon = new InputConnector(script.asInstanceOf[ScriptComponent with Input])
+trait InputGUI[T <: ScriptComponent with Input] extends ScriptNode[T] {
+  val inCon = new InputConnector(script)
   private val _pan = new FlowPanel {
     contents += inCon
   }
   layout(_pan) = Position.North
 }
 
-trait OutputGUI extends AbstractScriptNode {
-  val outCon = new OutputConnector(script.asInstanceOf[ScriptComponent with Output])
+trait OutputGUI[T <: ScriptComponent with Output] extends ScriptNode[T] {
+  val outCon = new OutputConnector(script)
   private val _pan = new FlowPanel {
     contents += outCon
   }
@@ -83,7 +95,7 @@ abstract class ConnectorButton[T <: ConnectorButton[_]] extends Button {
       connections += c
       conact(c)
       ConnectorButton.active = None
-      App.glass.linkOrUnlink(this.peer, c.peer)
+      GUIManager.glass.link(this.peer, c.peer)
     }
   }
   def disconnect(c: T) {
@@ -91,14 +103,14 @@ abstract class ConnectorButton[T <: ConnectorButton[_]] extends Button {
       connections -= c
       disact(c)
       ConnectorButton.active = None
-      App.glass.linkOrUnlink(this.peer, c.peer)
+      GUIManager.glass.unlink(this.peer, c.peer)
     }
   }
   def connected(c: T) = connections.contains(c) 
   
   override def paint(g:Graphics2D) {
     super.paint(g)
-    App.glass.repaint()
+    GUIManager.glass.repaint()
   }
   
 }

@@ -1,8 +1,9 @@
-package se.stagehand.gui
+package se.stagehand.swing.gui
 
 import scala.swing._
 import scala.swing.event._
-import se.stagehand.gui.Vector2._
+import se.stagehand.swing.lib.Vector2._
+import se.stagehand.swing.lib.Vector2
 
 /**
  * Panel class that works with arbitrary placement of components.

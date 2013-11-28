@@ -1,4 +1,4 @@
-package se.stagehand.gui.components
+package se.stagehand.swing.lib
 
 import se.stagehand.plugins.ComponentGUI
 

@@ -1,22 +1,21 @@
-package se.stagehand.gui
+package se.stagehand.swing.editor
 
 import scala.swing._
 import se.stagehand.plugins._
-import java.io.File
 import scala.swing.BorderPanel.Position._
+import se.stagehand.swing.gui._
+import se.stagehand.swing.lib.GUIManager
 
 /**
  * @author ${user.name}
  */
-object App extends SimpleSwingApplication {
-
-  val glass = new ComponentLinkerGUI
+object Editor extends SimpleSwingApplication {
   
   def top = new MainFrame {
     title = "Stagehand Editor"
     contents = ui
     menuBar = new MainMenu
-    peer.setGlassPane(glass)
+    peer.setGlassPane(GUIManager.glass)
     peer.getGlassPane().setVisible(true)
   }
   

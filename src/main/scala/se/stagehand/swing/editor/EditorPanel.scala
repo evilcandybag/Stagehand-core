@@ -1,11 +1,11 @@
-package se.stagehand.gui
+package se.stagehand.swing.editor
 
 import scala.swing._
-import scala.swing.event.MouseClicked
-import java.awt.event.MouseEvent.{BUTTON1,BUTTON2}
-import se.stagehand.gui.components.GUIManager
 import se.stagehand.plugins._
-import se.stagehand.gui.components.ConnectorButton
+import java.awt.event.MouseEvent.{BUTTON1,BUTTON2}
+import se.stagehand.swing.gui.NullPanel
+import scala.swing.event._
+import se.stagehand.swing.lib._
 
 class EditorPanel extends NullPanel {
 	preferredSize = new Dimension(500,500)

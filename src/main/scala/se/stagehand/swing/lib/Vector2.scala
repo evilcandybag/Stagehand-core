@@ -1,4 +1,4 @@
-package se.stagehand.gui
+package se.stagehand.swing.lib
 
 import java.awt.Point
 import java.awt.Dimension

@@ -1,10 +1,7 @@
-package se.stagehand.gui
+package se.stagehand.swing.editor
 
 import scala.swing._
-import se.stagehand.lib.scripting.ID
-import se.stagehand.gui.components.GUIManager
-import scala.xml.PrettyPrinter
-import se.stagehand.editor.FileIO
+import se.stagehand.swing.lib.FileIO
 
 class MainMenu extends MenuBar {
   val file = new Menu("File")

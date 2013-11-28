@@ -1,8 +1,8 @@
-package se.stagehand.gui
+package se.stagehand.swing.editor
 
 import scala.swing._
 import se.stagehand.plugins.PluginManager
-import se.stagehand.gui.components._
+import se.stagehand.swing.lib.GUIManager
 
 /**
  * Fetches all programming components and adds them 

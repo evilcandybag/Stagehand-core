@@ -1,9 +1,10 @@
-package se.stagehand.editor
+package se.stagehand.swing.lib
 
 import se.stagehand.lib.scripting.ID
-import se.stagehand.gui.components.GUIManager
 import scala.xml.PrettyPrinter
 import java.io.PrintWriter
+import scala.xml.XML
+import scala.xml.Elem
 
 object FileIO {
   def saveXML(s:String) {
@@ -13,9 +14,18 @@ object FileIO {
     
     val out = new PrintWriter( s , "UTF-8")
     try { 
+      out.println("<?xml version=\"1.0\" ?>")
+      out.println("<stage>")
       out.println( printer.format(modelXML) )
+      println( printer.format(modelXML))
       out.println( printer.format(guiXML) )
+      println( printer.format(guiXML))
+      out.println("</stage>")
     }
     finally{ out.close }
+  }
+  
+  def loadXML(s:String): Elem = {
+    XML.loadFile(s)
   }
 }

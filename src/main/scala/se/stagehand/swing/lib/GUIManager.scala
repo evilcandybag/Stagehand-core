@@ -1,14 +1,15 @@
-package se.stagehand.gui.components
+package se.stagehand.swing.lib
 
 import se.stagehand.lib.scripting.ScriptComponent
 import scala.swing.Button
 import se.stagehand.plugins.ComponentGUI
 import se.stagehand.plugins.Plugin
 import se.stagehand.plugins.PluginManager
-import se.stagehand.gui.EditorNode
 import scala.collection.immutable.ListSet
 import scala.swing.Component
 import scala.xml.Elem
+import se.stagehand.swing.gui.ComponentLinkerGUI
+import se.stagehand.swing.player.PlayerScriptNode
 
 
 /**
@@ -17,10 +18,20 @@ import scala.xml.Elem
  */
 object GUIManager {
   
+  var _glass:ComponentLinkerGUI = null
+  
+  def glass:ComponentLinkerGUI = {
+    if (_glass == null) {
+      _glass = new ComponentLinkerGUI
+      _glass.setVisible(true)
+    }
+    _glass
+  }
+  
   var gotScript:Option[ScriptComponent] = None
 
   private var sgui: Map[Class[_],ComponentGUI] = Map()
-  private var _comps: Set[EditorNode] = ListSet()
+  private var _sn: Set[ScriptNode[_]] = ListSet()
   
   def register(c: Class[_],s: ComponentGUI) {
     if (!sgui.contains(c)) {
@@ -28,8 +39,8 @@ object GUIManager {
     }
   }
   
-  def register(gui:EditorNode) {
-    _comps += gui
+  def register(gui:ScriptNode[_]) {
+    _sn += gui
   }
   
   def registered(c: Class[_]): Boolean = {
@@ -47,16 +58,24 @@ object GUIManager {
     getGUI[ScriptGUI](sc.getClass).menuItem(sc)
     //menuItems are always there, no need to register...
   }
-  def editorNode(sc: ScriptComponent): EditorNode = {
+  def editorNode(sc: ScriptComponent): EditorScriptNode[_] = {
     val gui = getGUI[ScriptGUI](sc.getClass).editorNode(sc)
     register(gui)
     gui
   }
   
+  def playerNode(sc: ScriptComponent): PlayerScriptNode[_] = {
+    getGUI[ScriptGUI](sc.getClass).playerNode(sc)
+  }
+  
+  def componentByID(id:Int): Option[ScriptNode[_]] = _sn.find(ec => 
+    ec.script.asInstanceOf[ScriptComponent].id == id)
+  
+  
   def guiXML:Elem = 
     <nodes>
 	  {
-    	_comps.map(_.locationXML)
+    	_sn.map(_.locationXML)
 	  }
     </nodes>
   
