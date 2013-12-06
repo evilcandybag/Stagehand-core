@@ -7,6 +7,6 @@ import se.stagehand.lib.scripting.ScriptComponent
  */
 trait ScriptPlugin extends Plugin {
   
-  def scriptcomponents: Array[ScriptComponent]
+  val scriptcomponents: Array[ScriptComponent]
 
 }
