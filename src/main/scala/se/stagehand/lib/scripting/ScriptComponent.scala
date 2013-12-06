@@ -35,10 +35,7 @@ abstract class ScriptComponent(id: Int) extends StagehandComponent(id) {
 object ScriptComponent {
   def fromXML[T <: ScriptComponent](e:Node):T = {
     val className = (e \ "@class").text
-    val loader = ClassLoader.getSystemClassLoader()
-    
-    val c = loader.loadClass(className)
-    val sc = c.newInstance.asInstanceOf[T]
+    val sc = ID.newInstance[T](className)
     sc.readInstructions(e)
     sc
   }
