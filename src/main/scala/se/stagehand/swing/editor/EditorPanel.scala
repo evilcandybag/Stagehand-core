@@ -6,6 +6,7 @@ import java.awt.event.MouseEvent.{BUTTON1,BUTTON2}
 import se.stagehand.swing.gui.NullPanel
 import scala.swing.event._
 import se.stagehand.swing.lib._
+import se.stagehand.lib.scripting.ID
 
 class EditorPanel extends NullPanel {
 	preferredSize = new Dimension(500,500)
@@ -19,7 +20,7 @@ class EditorPanel extends NullPanel {
 	  }
 	  case e:MouseClicked if GUIManager.gotScript.isDefined => {
 	    
-	    val script = Plugin.newInstance(GUIManager.gotScript.get)
+	    val script = ID.newInstance(GUIManager.gotScript.get)
 	    val gui = GUIManager.editorNode(script)
 //	    val gui = new Label("" + e.point)
 	    println("EP " + e.point.toString() + " " + gui)
