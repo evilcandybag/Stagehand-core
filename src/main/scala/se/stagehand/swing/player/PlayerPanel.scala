@@ -11,18 +11,22 @@ import se.stagehand.swing.lib.GUIManager
 import se.stagehand.swing.lib.ScriptGUI
 import se.stagehand.swing.lib.OutputGUI
 import scala.xml._
+import java.awt.Color
 
 class PlayerPanel extends NullPanel {
   preferredSize = new Dimension(500,500)
   border = Swing.EtchedBorder(Swing.Raised)
   
   def fromXML(xml:Node) {
+    val scxml = (xml \\ "components") \ "script"
+    val scripts = for (n <- scxml) yield {
+      ScriptComponent.fromXML[ScriptComponent](n)
+    }
     
-    val scxml = (xml \\ "scripts")
-    val scripts = scxml.map(ScriptComponent.fromXML(_))
     
-    val nxml = (xml \\ "nodes")
-    val nodes = for (n <- nxml if n.text == "node") yield {
+    val nxml = (xml \\ "nodes") \ "node"
+    println("nxml: " + nxml)
+    val nodes = for (n <- nxml if n.label == "node") yield {
       val id = (n \ "id").text.toInt
       val pos = new Point((n \ "locx").text.toInt, (n \ "locy").text.toInt)
       
@@ -33,10 +37,11 @@ class PlayerPanel extends NullPanel {
       val pn = gui.playerNode(sc)
       GUIManager.register(pn)
       add(pn,pos)
+      println("added " + pn.getClass())
       
       sc
     } 
-    
+    //Connect generated components
     for (n <- scxml) {
       val nid = (n \ "id").text.toInt
       (n \ "outputs").foreach(o => {
@@ -48,6 +53,5 @@ class PlayerPanel extends NullPanel {
         
       })
     }
-    
   }
 }
