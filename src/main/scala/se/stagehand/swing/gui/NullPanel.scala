@@ -4,27 +4,41 @@ import scala.swing._
 import scala.swing.event._
 import se.stagehand.swing.lib.Vector2._
 import se.stagehand.swing.lib.Vector2
+import javax.swing.JComponent
+import javax.swing.JPanel
 
 /**
  * Panel class that works with arbitrary placement of components.
  */
 class NullPanel extends Panel {
   peer.setLayout(null)
-  
+  override lazy val peer = new NullJPanel with SuperMixin
+   
+  override def contents = _contents
   
   def add(comp: Component, p: Point) {
     add(comp,p.x,p.y)
   }
   
   def add(comp: Component, x: Int, y: Int) {
-    val p = comp.peer
-    p.setLocation(x, y)
-    p.setSize(p.getPreferredSize())
-    peer.add(comp.peer)
+    this.contents += comp
+    comp.peer.setLocation(x, y) 
   }
+  
+  class NullJPanel extends JPanel {
+    setLayout(null)
+    override def add(c:java.awt.Component):java.awt.Component = {
+      super.add(c)
+      c.setLocation(0, 0)
+      c.setSize(c.getPreferredSize)
+      
+      c
+    }
+  }
+  
 }
 
-trait Movable extends Component{
+trait Movable extends Component {
     var dragstart:Vector2 = null
     listenTo(mouse.clicks, mouse.moves)
     reactions += {
