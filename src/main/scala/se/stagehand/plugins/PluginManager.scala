@@ -10,13 +10,16 @@ import scala.xml.XML
 
 object PluginManager {
   
-  private var effectsMap = Map[String, EffectPlugin]()
-  private var scriptMap = Map[String, ScriptPlugin]()
-  
+  private var effectsMap: Map[String, EffectPlugin] = null
+  private var scriptMap: Map[String, ScriptPlugin] = null
+
   /**
    * Load all plugins into the program.
    */
-  private def init() {
+  def init() {
+    effectsMap = Map[String, EffectPlugin]()
+    scriptMap = Map[String, ScriptPlugin]()
+    
     val pluginDir = new File("plugins")
     val files = pluginDir.listFiles(new FileFilter(){
       def accept(x:File) = x.getPath().endsWith("jar")
@@ -35,12 +38,12 @@ object PluginManager {
    * Fetch an effect plugin by name. 
    */
   def effectPlugin(name: String):Option[EffectPlugin] = {
-    if (effectsMap.isEmpty) init
+    if (effectsMap == null || (effectsMap.isEmpty && scriptMap.isEmpty)) init
     effectsMap.get(name)
   }
   
   def effectPlugins():Array[EffectPlugin] = {
-    if (effectsMap.isEmpty) init
+    if (effectsMap == null || (effectsMap.isEmpty && scriptMap.isEmpty)) init
     effectsMap.toArray.map(_._2)
   }
   
@@ -48,12 +51,12 @@ object PluginManager {
    * Find a script plugin by name. 
    */
   def scriptPlugin(name: String):Option[ScriptPlugin] = {
-    if (scriptMap.isEmpty) init
+    if (scriptMap == null || (scriptMap.isEmpty && effectsMap.isEmpty)) init
     scriptMap.get(name)
   }
   
   def scriptPlugins():Array[ScriptPlugin] = {
-    if (scriptMap.isEmpty) init
+    if (scriptMap == null || (scriptMap.isEmpty && scriptMap.isEmpty)) init
     scriptMap.toArray.map(_._2)
   }
   
