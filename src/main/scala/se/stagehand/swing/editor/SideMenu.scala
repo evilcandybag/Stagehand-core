@@ -15,7 +15,7 @@ class SideMenu extends BoxPanel(Orientation.Vertical) {
 //  GUIManager.sgui.toList.foreach( x => println(x._1.toString() + x._2.toString() ))
   
   border = Swing.EtchedBorder(Swing.Raised)
-  PluginManager.scriptPlugins.foreach( x =>  
+  plugs.foreach( x =>  
     x.scriptcomponents.foreach( y => 
       contents += GUIManager.menuItem(y)
     )
