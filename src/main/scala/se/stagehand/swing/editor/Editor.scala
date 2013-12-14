@@ -11,16 +11,21 @@ import se.stagehand.swing.lib.GUIManager
  */
 object Editor extends SimpleSwingApplication {
   
+  val panel = new EditorPanel
+  val side = new SideMenu
+  val menu = new MainMenu
+  
   def top = new MainFrame {
     title = "Stagehand Editor"
     contents = ui
-    menuBar = new MainMenu
+    menuBar = menu
     peer.setGlassPane(GUIManager.glass)
     peer.getGlassPane().setVisible(true)
   }
   
+  
   def ui = new BorderPanel {
-    layout(new SideMenu) = West
-    layout(new EditorPanel) = Center
+    layout(side) = West
+    layout(panel) = Center
   }
 }
