@@ -32,7 +32,9 @@ trait Output extends ScriptComponent {
   /**
    * Signal all connected Inputs with the given ControlMessage.
    */
-  def signal(msg: ScriptMessage): Unit 
+  def signal(msg: ScriptMessage) {
+    receivers.foreach(_ ! msg)
+  }
   
   def outputsXML: Elem = 
     <outputs>{_receivers.map(_.idXML)}</outputs>
