@@ -29,10 +29,7 @@ abstract class StagehandComponent(ident: Int) {
    */
   def readInstructions(in: Node)
   
-  /**
-   * Execute the given instructions over the assigned targets. 
-   */
-  def executeInstructions: Unit
+
   
   
   /**

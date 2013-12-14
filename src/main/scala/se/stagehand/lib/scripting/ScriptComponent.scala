@@ -28,6 +28,11 @@ abstract class ScriptComponent(id: Int) extends StagehandComponent(id) {
     }
     
   }
+  
+  /**
+   * Execute the given instructions over the assigned targets. 
+   */
+  def executeInstructions(params:Any*): Unit
 
   
 }
