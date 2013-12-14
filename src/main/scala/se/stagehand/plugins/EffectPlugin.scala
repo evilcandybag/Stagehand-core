@@ -8,6 +8,6 @@ trait EffectPlugin extends Plugin {
   /**
    * Get the effects defined by this plugin. 
    */
-  def getEffects(): Array[Effect]
+  val effects: Array[Effect]
   
 }
