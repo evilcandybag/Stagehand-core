@@ -7,6 +7,6 @@ class ${artifactId}Plugin extends ScriptPlugin {
 
   val name = "${artifactId}"
     
-  def scriptcomponents: Array[ScriptComponent] = Array(new ${artifactId}Script)
+  val scriptcomponents: Array[ScriptComponent] = Array(new ${artifactId}Script)
   
 }

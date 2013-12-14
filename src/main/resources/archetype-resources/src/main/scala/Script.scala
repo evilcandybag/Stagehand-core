@@ -5,7 +5,7 @@ import scala.xml.Elem
 import scala.swing._
 
 class ${artifactId}Script extends ScriptComponent {
-  val displayName = "${artifactId}"
+  def componentName = "${artifactId}"
     
   def executeInstructions {}
   def readInstructions(in: Elem) {}
