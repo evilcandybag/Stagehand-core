@@ -10,6 +10,8 @@ import scala.swing.Component
 import scala.xml.Elem
 import se.stagehand.swing.gui.ComponentLinkerGUI
 import se.stagehand.swing.player.PlayerScriptNode
+import se.stagehand.lib.scripting.StagehandComponent
+import se.stagehand.lib.scripting.Effect
 
 
 /**
@@ -31,7 +33,7 @@ object GUIManager {
   var gotScript:Option[ScriptComponent] = None
 
   private var sgui: Map[Class[_],ComponentGUI] = Map()
-  private var _sn: Set[ScriptNode[_]] = ListSet()
+  private var _sn: Set[ComponentNode[_]] = ListSet()
   
   def register(c: Class[_],s: ComponentGUI) {
     if (!sgui.contains(c)) {
@@ -68,14 +70,22 @@ object GUIManager {
     getGUI[ScriptGUI](sc.getClass).playerNode(sc)
   }
   
-  def componentByID(id:Int): Option[ScriptNode[_]] = _sn.find(ec => 
-    ec.script.asInstanceOf[ScriptComponent].id == id)
+  def editorItem(e: Effect): EditorEffectItem[_] = {
+    getGUI[EffectGUI](e.getClass).editorItem(e)
+  }
+  def playerItem(e: Effect): PlayerEffectItem[_] = {
+    getGUI[EffectGUI](e.getClass).playerItem(e)
+  }
+  
+  
+  def componentByID[T <: ComponentNode[_]](id:Int) = _sn.find(ec => 
+    ec.component.asInstanceOf[StagehandComponent].id == id)
   
   
   def guiXML:Elem = 
     <nodes>
 	  {
-    	_sn.map(_.locationXML)
+    	_sn.filter(_.isInstanceOf[ScriptNode[_]])map(_.asInstanceOf[ScriptNode[_]].locationXML)
 	  }
     </nodes>
   
