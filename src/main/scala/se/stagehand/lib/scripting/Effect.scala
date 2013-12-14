@@ -11,20 +11,11 @@ import scala.collection.immutable.ListSet
  * component where commands are executed. 
  */
 abstract class Effect extends StagehandComponent {
-  private var _targets:ListSet[Target] = ListSet()
   
   /**
    * Trigger this effect 
    */
   def trigger: Unit
   
-  def addTarget(tar: Target) {
-    _targets = _targets + tar
-  }
-  
-  def removeTarget(tar: Target) {
-    _targets = _targets - tar
-  }
- 
   
 }
