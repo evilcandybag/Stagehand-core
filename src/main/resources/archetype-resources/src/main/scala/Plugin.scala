@@ -1,4 +1,4 @@
-package ${groupId}
+package ${packageId}
 
 import se.stagehand.plugins.EffectPlugin
 import se.stagehand.lib.scripting.Effect

@@ -1,4 +1,4 @@
-package ${groupId}
+package ${packageId}
 
 import se.stagehand.lib.scripting._
 import scala.xml.Elem
