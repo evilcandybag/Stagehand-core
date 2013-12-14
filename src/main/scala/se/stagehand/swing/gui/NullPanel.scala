@@ -22,7 +22,10 @@ class NullPanel extends Panel {
   
   def add(comp: Component, x: Int, y: Int) {
     this.contents += comp
-    comp.peer.setLocation(x, y) 
+    comp.peer.setLocation(x, y)
+    
+    comp.repaint
+    comp.revalidate
   }
   
   class NullJPanel extends JPanel {
