@@ -7,8 +7,10 @@ import se.stagehand.swing.gui.NullPanel
 import scala.swing.event._
 import se.stagehand.swing.lib._
 import se.stagehand.lib.scripting.ID
+import se.stagehand.lib.Log
 
 class EditorPanel extends NullPanel {
+    private val log = Log.getLog(this.getClass())
 	preferredSize = new Dimension(500,500)
 	border = Swing.EtchedBorder(Swing.Raised)
 	listenTo(mouse.clicks)	
@@ -23,7 +25,7 @@ class EditorPanel extends NullPanel {
 	    val script = ID.newInstance(GUIManager.gotScript.get)
 	    val gui = GUIManager.editorNode(script)
 //	    val gui = new Label("" + e.point)
-	    println("EP " + e.point.toString() + " " + gui)
+	    log.debug("EP " + e.point.toString() + " " + gui)
 	
 	    add(gui,e.point)
 	    GUIManager.register(gui)

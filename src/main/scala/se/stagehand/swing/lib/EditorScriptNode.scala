@@ -10,23 +10,26 @@ import java.awt.BasicStroke
 import java.awt.geom.Line2D
 import se.stagehand.swing.gui.Movable
 import scala.xml.Elem
+import se.stagehand.swing.gui.Resizable
+import se.stagehand.lib.Log
 
 
 /**
  * Class for defining nodes in the editor graph for a script. 
  */
-abstract class EditorScriptNode[T <: ScriptComponent](sc: T) extends BorderPanel with Movable with ScriptNode[T] {
+abstract class EditorScriptNode[T <: ScriptComponent](sc: T) extends BorderPanel with Movable with Resizable with ScriptNode[T] {
+  private val log = Log.getLog(this.getClass())
   listenTo(mouse.clicks)
   listenTo(mouse.moves)
   visible = true
   
   opaque = false
-  
+ 
   private val _script = sc
   def script = _script
   
-  def dascript:T = return script
-		
+  protected def me = this
+  
   val title: Label = new Label(displayName) {
     this.listenTo(mouse.clicks)
     this.reactions += {
@@ -116,22 +119,23 @@ abstract class ConnectorButton[T <: ConnectorButton[_]] extends Button {
 }
 
 class OutputConnector(val script: ScriptComponent with Output) extends ConnectorButton[InputConnector] {
+  private val log = Log.getLog(this.getClass())
   background = Color.red
   
   def conact(ic: InputConnector) {
     ic.connect(this)
     script.connectOut(ic.script)
     
-    println("connected " + ic.script.id)
-    println("connections: " + connections.map(_.script.id))
+    log.debug("connected " + ic.script.id)
+    log.debug("connections: " + connections.map(_.script.id))
     
   }
   def disact(ic: InputConnector) {
     ic.disconnect(this)
     script.disconnectOut(ic.script)
     
-    println("disconnected " + ic.script.id)
-    println("connections: " + connections.map(_.script.id))
+    log.debug("disconnected " + ic.script.id)
+    log.debug("connections: " + connections.map(_.script.id))
   }
   
   action = new Action("") {

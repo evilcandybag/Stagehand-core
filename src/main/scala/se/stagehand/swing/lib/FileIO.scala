@@ -5,8 +5,10 @@ import scala.xml.PrettyPrinter
 import java.io.PrintWriter
 import scala.xml.XML
 import scala.xml.Elem
+import se.stagehand.lib.Log
 
 object FileIO {
+  private val log = Log.getLog(this.getClass())
   def saveXML(s:String) {
     val modelXML = ID.allXML
     val guiXML = GUIManager.guiXML
@@ -17,9 +19,9 @@ object FileIO {
       out.println("<?xml version=\"1.0\" ?>")
       out.println("<stage>")
       out.println( printer.format(modelXML) )
-      println( printer.format(modelXML))
+      log.debug( printer.format(modelXML))
       out.println( printer.format(guiXML) )
-      println( printer.format(guiXML))
+      log.debug( printer.format(guiXML))
       out.println("</stage>")
     }
     finally{ out.close }

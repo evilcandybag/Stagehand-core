@@ -5,6 +5,7 @@ import se.stagehand.lib.scripting._
 import scala.actors.Actor
 import javax.swing.JOptionPane
 import scala.swing.BorderPanel.Position._
+import se.stagehand.lib.Log
 
 
 object EffectSelector {
@@ -18,6 +19,7 @@ object EffectSelector {
  
   
   class EffectDialog(c: Class[_]) extends Dialog {
+    private val log = Log.getLog(this.getClass())
     if (!classOf[StagehandComponent].isAssignableFrom(c))
       throw new IllegalArgumentException("Class needs to be a subclass of StagehandComponent!")
     
@@ -39,7 +41,7 @@ object EffectSelector {
         border = Swing.EmptyBorder(5,5,5,5)
 
         contents += effectsview
-        println("effects: " + effects.length)
+        log.debug("effects: " + effects.length)
       }) = Center
 
       layout(new FlowPanel(FlowPanel.Alignment.Right)(
