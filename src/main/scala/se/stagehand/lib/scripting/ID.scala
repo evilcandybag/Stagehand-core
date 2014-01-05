@@ -15,6 +15,15 @@ object ID {
     counter += 1
     counter
   }
+  /**
+   * Clear all instances stored in  the pool and reset the unique ID counter.
+   * Classes stay loaded so that they can be instantiated by name.
+   */
+  def clearInstances {
+    pool = Map()
+    counter = 0
+  }
+  
   
   def add(k: Int, sc: StagehandComponent) {
     if (!pool.contains(k)) {
@@ -29,6 +38,7 @@ object ID {
     poolAdd(i, sc)
     return i
   }
+  
   private def poolAdd(i:Int, sc:StagehandComponent) {
     //if I cannot find a prototype of the same class, add one.
     //in practice, the first component that is created is the prototype
@@ -38,12 +48,36 @@ object ID {
     }
     pool += (i -> sc)
   }
-  def newInstance[T <: StagehandComponent](name:String):T = {
-    val p = prototypes.find(x => x._1.getName == name)
-    if (p.isDefined) {
-      return p.get._1.newInstance().asInstanceOf[T]
+  def newInstance[T <: StagehandComponent](cname:String, id: Int):T = {
+    val mp = prototypes.find(x => x._1.getName == cname)
+    if (mp.isDefined) {
+      val p = mp.get._1
+      return this.newInstance(p,id).asInstanceOf[T]
     } else {
-      throw new IllegalArgumentException("class not found")
+      throw new IllegalArgumentException("class not found " + cname)
+    }
+  }
+  
+  def newInstance[T <: StagehandComponent](cname:String): T = {
+    newInstance[T](cname,-1)
+  }
+  
+  /**
+   * Helper to either construct an object with a new unique id or with a supplied id.
+   * @param c - class to instantiate.
+   * @param id - new id. If id < 0, generate a unique ID. 
+   */
+  private def newInstance(c: Class[_], id:Int) = {
+    if (id < 0) {
+      c.newInstance
+    } else {
+      val cons = c.getConstructors
+      val con = cons.find(_.getParameterTypes.length == 1)
+      if (con.isDefined) {
+        con.get.newInstance(id.asInstanceOf[java.lang.Object])
+      } else {
+        throw new IllegalStateException("This shit unreachable, yo")
+      }
     }
   }
   
