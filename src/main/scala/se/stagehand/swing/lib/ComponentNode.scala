@@ -6,9 +6,14 @@ import scala.xml.Node
 import scala.swing.BorderPanel
 import se.stagehand.lib.scripting.StagehandComponent
 import se.stagehand.lib.scripting.Effect
+import java.awt.Dimension
 
-trait ComponentNode[T <: StagehandComponent] {
+trait ComponentNode[T <: StagehandComponent] extends Component {
   def component: T
+  
+  def size_=(d:Dimension) {
+    peer.setSize(d)
+  } 
 }
 
 trait ScriptNode[T <: ScriptComponent] extends BorderPanel with ComponentNode[T]{
@@ -24,7 +29,7 @@ trait ScriptNode[T <: ScriptComponent] extends BorderPanel with ComponentNode[T]
 	  </node>
 }
 
-trait EffectNode[T <: Effect] extends Component with ComponentNode[T] {
+trait EffectNode[T <: Effect] extends ComponentNode[T] {
   def component = effect
   def effect: T
 } 
