@@ -19,15 +19,10 @@ abstract class ScriptComponent(id: Int) extends StagehandComponent(id) {
     }
   }
   
+  protected val kind = "script"
+  
   override def generateInstructions: Node = 
     <script class={this.getClass().getName()}>{idXML}</script>
-    
-  override def readInstructions(in:Node) {
-    if (in.label != "script" || (in \ "@class").text != this.getClass.getName) {
-      throw new IllegalArgumentException("Illegal XML for " + this.getClass().getName())
-    }
-    
-  }
   
   /**
    * Execute the given instructions over the assigned targets. 
@@ -40,8 +35,9 @@ abstract class ScriptComponent(id: Int) extends StagehandComponent(id) {
 object ScriptComponent {
   def fromXML[T <: ScriptComponent](e:Node):T = {
     val className = (e \ "@class").text
-    val sc = ID.newInstance[T](className)
-    sc.readInstructions(e)
+    val id = (e \ "id")(0).text.toInt
+    val sc = ID.newInstance[T](className,id)
+//    sc.readInstructions(e)
     sc
   }
 }

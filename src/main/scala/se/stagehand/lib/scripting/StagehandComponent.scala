@@ -11,6 +11,8 @@ abstract class StagehandComponent(ident: Int) {
   val id = ident
   ID.add(id, this)
   
+  protected val kind:String
+  
   def componentName:String
   
   /**
@@ -27,7 +29,11 @@ abstract class StagehandComponent(ident: Int) {
   /**
    * Load instructions for the player. 
    */
-  def readInstructions(in: Node)
+  def readInstructions(in: Node) {
+    if (in.label != kind || (in \ "@class").text != this.getClass.getName) {
+      throw new IllegalArgumentException("Illegal XML for " + this.getClass().getName())
+    }
+  }
   
 
   
@@ -43,4 +49,14 @@ abstract class StagehandComponent(ident: Int) {
   def idXML: Elem = <id>{id}</id>
   override def toString = componentName + "{" + id + "}"
   
+}
+
+object StagehandComponent {
+  def fromXML[T <: StagehandComponent](e:Node):T = {
+    val className = (e \ "@class").text
+    val id = (e \ "id")(0).text.toInt
+    val sc = ID.newInstance[T](className,id)
+//    sc.readInstructions(e)
+    sc
+  }
 }
