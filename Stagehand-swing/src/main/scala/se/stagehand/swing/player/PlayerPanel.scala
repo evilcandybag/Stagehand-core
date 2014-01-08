@@ -18,6 +18,8 @@ import scala.swing.event.KeyEvent
 import scala.swing.event.Event
 import se.stagehand.swing.lib.KeyEventHandler
 import se.stagehand.lib.Log
+import se.stagehand.lib.scripting.Output
+import se.stagehand.lib.scripting.Input
 
 class PlayerPanel extends NullPanel {
   private val log = Log.getLog(this.getClass())
@@ -71,9 +73,10 @@ class PlayerPanel extends NullPanel {
       val nid = (n \ "id").text.toInt
       (n \ "outputs").foreach(o => {
         val ids = (o \ "id").map(_.text.toInt)
-        
-        for (id <- ids.map(GUIManager.componentByID(_)) if id.isDefined && id.get.isInstanceOf[OutputGUI[_]]) {
-          
+        log.debug(ids.toString)
+        for (in <- ids.map(ID.fetch[ScriptComponent with Input])) {
+          val out = ID.fetch[ScriptComponent with Output](nid)
+          out.connectOut(in)
         }
         
       })
