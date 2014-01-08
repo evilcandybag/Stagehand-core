@@ -30,14 +30,14 @@ trait Output extends ScriptComponent {
   /**
    * Get all connected receivers
    */
-  protected def receivers:List[ScriptComponent with Input] = _receivers.toList
+  protected def inputs = _receivers
   
   /**
    * Signal all connected Inputs with the given ControlMessage.
    */
   def signal(msg: ScriptMessage) {
-    log.debug(receivers.toString)
-    receivers.foreach(x => {log.debug("messaging: " + x.displayName); x ! msg})
+    log.debug(_receivers.toString)
+    _receivers.foreach(x => {log.debug("messaging: " + x.displayName); x ! msg})
   }
   
   def outputsXML: Elem = 
