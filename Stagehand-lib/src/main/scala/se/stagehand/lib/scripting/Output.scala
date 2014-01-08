@@ -30,7 +30,7 @@ trait Output extends ScriptComponent {
   /**
    * Get all connected receivers
    */
-  protected def inputs = _receivers
+  def outputs = _receivers
   
   /**
    * Signal all connected Inputs with the given ControlMessage.

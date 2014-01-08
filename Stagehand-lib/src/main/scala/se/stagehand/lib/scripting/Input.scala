@@ -20,7 +20,7 @@ trait Input extends ScriptComponent with Actor {
     _senders -= out
   }
   
-  protected def inputs = _senders
+  def inputs = _senders
   
   def act = loop { 
     react {
