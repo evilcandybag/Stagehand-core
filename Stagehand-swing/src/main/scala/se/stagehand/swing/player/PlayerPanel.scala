@@ -40,19 +40,23 @@ class PlayerPanel extends NullPanel {
     ID.clearInstances
     val scxml = (xml \\ "components") \ "script"
     val fxxml = (xml \\ "components") \ "effect"
+    //Create all ScriptComponents
     val scripts = for (n <- scxml) yield {
       StagehandComponent.fromXML[ScriptComponent](n)
     }
+    //Create all Effects
     val effects = for (n <- fxxml) yield {
       StagehandComponent.fromXML[Effect](n)
     }
+    //Read instructions for all loaded StagehandComponents
     (scxml ++ fxxml).foreach(n => {
       val id = (n \ "id").text.toInt
       
       ID.fetch[StagehandComponent](id).readInstructions(n)
     })
     
-    
+    //Generate all PlayerScriptGUIs and place PlayerScriptNodes
+    var infixes = List[PlayerScriptInfix[_]]()
     val nxml = (xml \\ "nodes") \ "node"
     val nodes = for (n <- nxml if n.label == "node") yield {
       val id = (n \ "id").text.toInt
@@ -64,7 +68,14 @@ class PlayerPanel extends NullPanel {
       
       val pn = gui.playerNode(sc)
       GUIManager.register(pn)
-      add(pn,pos)
+      pn match {
+        case node:PlayerScriptNode[_] => {
+          add(node,pos)
+        }
+        case node:PlayerScriptInfix[_] => {
+          infixes = node :: infixes
+        }
+      }
       
       sc
     } 
@@ -81,5 +92,18 @@ class PlayerPanel extends NullPanel {
         
       })
     }
+    //Apply all infix components
+    for (infix <- infixes) {
+      infix.script match {
+        case s: ScriptComponent with Output => s.outputs.foreach(x => {
+          val reciever:Option[PlayerScriptNode[_]] = GUIManager.componentByID[PlayerScriptNode[_]](x.id)
+          if (reciever.isDefined) {
+            reciever.get.addInfix(infix)
+          }
+        })
+      }
+    }
+    //refresh all components
+    GUIManager.components.foreach(_.refresh)
   }
 }

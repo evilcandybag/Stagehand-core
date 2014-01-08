@@ -5,6 +5,7 @@ import scala.swing._
 import se.stagehand.swing.gui._
 import se.stagehand.plugins._
 import se.stagehand.swing.player.PlayerScriptNode
+import se.stagehand.swing.player.PlayerGUIElement
 
 /**
  * Wrapper trait for adding GUI to ScriptComponents. Have an object implement this
@@ -27,6 +28,6 @@ trait ScriptGUI extends ComponentGUI {
   
   def menuItem(script: ScriptComponent): Button
   def editorNode(script: ScriptComponent): EditorScriptNode[_]
-  def playerNode(script: ScriptComponent): PlayerScriptNode[_]
+  def playerNode(script: ScriptComponent): PlayerGUIElement[ScriptComponent]
   
 }

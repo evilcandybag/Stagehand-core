@@ -66,7 +66,7 @@ abstract class EditorScriptNode[T <: ScriptComponent](sc: T) extends BorderPanel
   
 }
 
-trait InputGUI[T <: ScriptComponent with Input] extends ScriptNode[T] {
+trait InputGUI[T <: ScriptComponent with Input] extends EditorScriptNode[T] {
   val inCon = new InputConnector(script)
   private val _pan = new FlowPanel {
     contents += inCon
@@ -74,7 +74,7 @@ trait InputGUI[T <: ScriptComponent with Input] extends ScriptNode[T] {
   layout(_pan) = Position.North
 }
 
-trait OutputGUI[T <: ScriptComponent with Output] extends ScriptNode[T] {
+trait OutputGUI[T <: ScriptComponent with Output] extends EditorScriptNode[T] {
   val outCon = new OutputConnector(script)
   private val _pan = new FlowPanel {
     contents += outCon

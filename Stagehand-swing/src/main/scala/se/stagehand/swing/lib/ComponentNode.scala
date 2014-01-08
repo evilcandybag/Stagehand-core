@@ -7,16 +7,24 @@ import scala.swing.BorderPanel
 import se.stagehand.lib.scripting.StagehandComponent
 import se.stagehand.lib.scripting.Effect
 import java.awt.Dimension
+import scala.swing.BoxPanel
+import scala.swing.Orientation
 
-trait ComponentNode[T <: StagehandComponent] extends Component {
+trait ComponentNode[+T <: StagehandComponent] extends Component {
   def component: T
   
-  def size_=(d:Dimension) {
-    peer.setSize(d)
-  } 
+  def refresh {
+    peer.setSize(preferredSize)
+    revalidate
+    repaint
+  }
+  
+  class ContentPanel(name:String) extends BoxPanel(Orientation.Vertical) {
+    override def toString = name + "\n\t" + contents.map(_.toString).mkString("\n\t")
+  }
 }
 
-trait ScriptNode[T <: ScriptComponent] extends BorderPanel with ComponentNode[T]{
+trait ScriptNode[+T <: ScriptComponent] extends ComponentNode[T]{
   def component = script
   
   def script: T

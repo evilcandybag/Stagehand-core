@@ -12,6 +12,7 @@ import se.stagehand.swing.gui.ComponentLinkerGUI
 import se.stagehand.swing.player.PlayerScriptNode
 import se.stagehand.lib.scripting.StagehandComponent
 import se.stagehand.lib.scripting.Effect
+import se.stagehand.swing.player.PlayerGUIElement
 
 
 /**
@@ -41,7 +42,7 @@ object GUIManager {
     }
   }
   
-  def register(gui:ScriptNode[_]) {
+  def register(gui:ComponentNode[_]) {
     _sn += gui
   }
   
@@ -66,7 +67,7 @@ object GUIManager {
     gui
   }
   
-  def playerNode(sc: ScriptComponent): PlayerScriptNode[_] = {
+  def playerNode(sc: ScriptComponent): PlayerGUIElement[_] = {
     getGUI[ScriptGUI](sc.getClass).playerNode(sc)
   }
   
@@ -78,9 +79,10 @@ object GUIManager {
   }
   
   
-  def componentByID[T <: ComponentNode[_]](id:Int) = _sn.find(ec => 
-    ec.component.asInstanceOf[StagehandComponent].id == id)
+  def componentByID[T <: ComponentNode[_]](id:Int):Option[T] = _sn.find(ec => 
+    ec.component.asInstanceOf[StagehandComponent].id == id).map(_.asInstanceOf[T])
   
+  def components = _sn.toList
   
   def guiXML:Elem = 
     <nodes>
