@@ -49,16 +49,12 @@ abstract class PlayerScriptNode[T <: ScriptComponent](sc:T) extends BorderPanel 
     }
   }
   
-  revalidate
-  repaint
-  
+  refresh
   
   def addInfix(infix:PlayerScriptInfix[_]) {
     infixes.contents += infix
     revalidate
     repaint
   }
-  
-  peer.setSize(preferredSize)
   
 }
