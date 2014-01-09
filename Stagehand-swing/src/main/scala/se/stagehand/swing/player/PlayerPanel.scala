@@ -20,11 +20,14 @@ import se.stagehand.swing.lib.KeyEventHandler
 import se.stagehand.lib.Log
 import se.stagehand.lib.scripting.Output
 import se.stagehand.lib.scripting.Input
+import scala.swing.GridPanel
+import scala.swing.FlowPanel
+import scala.swing.Component
 
-class PlayerPanel extends NullPanel {
+class PlayerPanel extends FlowPanel {
   private val log = Log.getLog(this.getClass())
   
-  preferredSize = new Dimension(500,500)
+  preferredSize = new Dimension(800,640)
   border = Swing.EtchedBorder(Swing.Raised)
   listenTo(keys)
   deafTo(this)
@@ -35,6 +38,8 @@ class PlayerPanel extends NullPanel {
   reactions += {
     case e:Event => {log.debug(e.toString); publish(e)}
   }
+  
+  def add(c:Component) = contents += c
   
   def fromXML(xml:Node) {
     ID.clearInstances
@@ -70,7 +75,8 @@ class PlayerPanel extends NullPanel {
       GUIManager.register(pn)
       pn match {
         case node:PlayerScriptNode[_] => {
-          add(node,pos)
+//          add(node,pos)
+          add(node)
         }
         case node:PlayerScriptInfix[_] => {
           infixes = node :: infixes
