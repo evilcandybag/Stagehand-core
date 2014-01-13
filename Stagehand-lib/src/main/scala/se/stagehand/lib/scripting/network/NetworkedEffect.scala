@@ -18,6 +18,7 @@ import akka.util.ByteString
 
 abstract class NetworkedEffect(id:Int) extends Effect(id) with Targets {
   def this() = this(ID.unique)
+  if (!NetworkedEffect.started) NetworkedEffect.start  
 }
 
 class NetworkedTarget(name:String, val addr:InetAddress, val port:Int, cap:Array[String], desc:String) extends Target(name,cap,desc) with Actor {
@@ -25,6 +26,7 @@ class NetworkedTarget(name:String, val addr:InetAddress, val port:Int, cap:Array
   
   import Tcp._
   import context.system
+  import Target._
   
   
   val io = IO(Tcp)
@@ -37,7 +39,7 @@ class NetworkedTarget(name:String, val addr:InetAddress, val port:Int, cap:Array
       context become {
         case data: ByteString ⇒ connection ! Write(data)
         case CommandFailed(w: Write) ⇒ // O/S buffer was full
-        case Received(data) ⇒  callback(data.decodeString("UTF-8"))
+        case Received(data) ⇒  callback(Protocol.decode(data.decodeString("UTF-8")))
         case "close" ⇒ connection ! Close
         case _: ConnectionClosed ⇒ context stop self
       }
@@ -45,20 +47,16 @@ class NetworkedTarget(name:String, val addr:InetAddress, val port:Int, cap:Array
     }
   }
   
-  private def callback(bs:String) {
-    callback(bs.split(","):_*)
-  }
-  
   def connect {
     io ! Connect(socketAddress)
   }
   
-  def run(args:String*) {
-    
+  def run(args:Protocol.Arguments) {
+    self ! ByteString.apply(Protocol.encode(args))
   }
-  def callback(args:String*) {}
-  
-  
+  def callback(args:Protocol.Arguments) {
+    log.debug("Received callback with args " + args)
+  }
   
   override def toString = "NetworkedTarget{" + name + ", " + addr + ": " + port + ", cap: [" + cap.mkString(", ") + "]}"
 }
@@ -79,9 +77,12 @@ object NetworkedTarget {
  * Handles the detection of active EffectServers and creates Target objects 
  */
 object NetworkedEffect {
+  private val log = Log.getLog(this.getClass)
+  
   val MDNS_SERVICE_TYPE = "_stagehand._tcp.local."
   val CAPABILITIES = "capabilities"
   val DESCRIPTION = "description"
+    
       
   private var mdnsService:JmDNS = null
   private var mdnsServiceListener:ServiceListener = null
@@ -116,8 +117,9 @@ object NetworkedEffect {
     mdnsServiceListener = new StagehandServiceListener
     mdnsService.addServiceListener(MDNS_SERVICE_TYPE, mdnsServiceListener)
     _started = true
+    log.debug("Started listening for services.")
   }
-  def started = _started 
+  def started = _started
   
   /**
    * Get available Stagehand services as 
