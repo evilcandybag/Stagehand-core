@@ -68,6 +68,16 @@
     	<artifactId>scala-actors</artifactId>
     	<version>${scala.version}</version>
     </dependency>
+    <dependency>
+    	<groupId>javax.jmdns</groupId>
+    	<artifactId>jmdns</artifactId>
+    	<version>3.4.1</version>
+    </dependency>
+    <dependency>
+    	<groupId>com.typesafe.akka</groupId>
+    	<artifactId>akka-actor_2.10</artifactId>
+    	<version>2.2.3</version>
+    </dependency>
   </dependencies>
 
   <build>
