@@ -49,6 +49,7 @@ object Log {
   private object NoLog extends Log(classOf[Any]) {
     override def debug(msg:String) {}
     override def log(msg:String) {}
+    override def error(msg:String) {}
   }
   private class NoDebug(cls:Class[_]) extends Log(cls) {
     override def debug(msg:String) {}
@@ -68,6 +69,7 @@ class Log(private val cls:Class[_]) {
   
   def debug(msg:String) = message("DEBUG", msg)
   def log(msg:String) = message("LOG", msg)
+  def error(msg:String) = message("ERROR", msg)
   
   private def message(typ:String, msg:String) = Log.out.println("[" + stamp + typ + "-" + cname + "] " + msg)
 }
