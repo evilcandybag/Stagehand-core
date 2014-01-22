@@ -13,59 +13,95 @@ import se.stagehand.lib.Log
 import akka.io.{IO,Tcp}
 import akka.actor.{ Actor, ActorRef, Props }
 import akka.util.ByteString
+import akka.actor.ActorSystem
 
 
 
 abstract class NetworkedEffect(id:Int) extends Effect(id) with Targets {
   def this() = this(ID.unique)
   if (!NetworkedEffect.started) NetworkedEffect.start  
+  
+  override def addTarget(tar:Target) {
+    tar match {
+      case t:NetworkedTarget => t.connect
+    }
+    super.addTarget(tar)
+  }
 }
 
-class NetworkedTarget(name:String, val addr:InetAddress, val port:Int, cap:Array[String], desc:String) extends Target(name,cap,desc) with Actor {
+class NetworkedTarget(name:String, val addr:InetAddress, val port:Int, cap:Array[String], desc:String) extends Target(name,cap,desc) {
   private val log = Log.getLog(this.getClass())
   
   import Tcp._
-  import context.system
   import Target._
+  private var _connected = false
   
-  
-  val io = IO(Tcp)
   private val socketAddress = new InetSocketAddress(addr,port)
+  val io = NetworkedEffect.system.actorOf(Props(new Actor {
+    private implicit val _system = NetworkedEffect.system
+    def receive = {
+	    case c @ Connected(remote,local) => {
+	      val connection = sender
+	      _connected = true
+	      connection ! Register(self)
+	      context become {
+	        case data: ByteString => connection ! Write(data)
+	        case CommandFailed(w: Write) => // O/S buffer was full
+	        case Received(data) => callback(Protocol.decode(data.decodeString("UTF-8")))
+	        case "close" => connection ! Close
+	        case _: ConnectionClosed => { 
+	          _connected = false 
+	          context stop self
+	        }
+	      }
+	      
+	    }
+	    case c @ ("CONNECT",socket:InetSocketAddress) => IO(Tcp) ! Connect(socket)
+	  }
+  }))
   
-  def receive = {
-    case c @ Connected(remote,local) => {
-      val connection = sender
-      connection ! Register(self)
-      context become {
-        case data: ByteString ⇒ connection ! Write(data)
-        case CommandFailed(w: Write) ⇒ // O/S buffer was full
-        case Received(data) ⇒  callback(Protocol.decode(data.decodeString("UTF-8")))
-        case "close" ⇒ connection ! Close
-        case _: ConnectionClosed ⇒ context stop self
-      }
-      
+	  
+  
+  def connect {
+    if (!_connected) {
+      io ! ("CONNECT",socketAddress)
     }
   }
   
-  def connect {
-    io ! Connect(socketAddress)
-  }
-  
   def run(args:Protocol.Arguments) {
-    self ! ByteString.apply(Protocol.encode(args))
+    io ! ByteString.apply(Protocol.encode(args))
   }
   def callback(args:Protocol.Arguments) {
     log.debug("Received callback with args " + args)
   }
   
   override def toString = "NetworkedTarget{" + name + ", " + addr + ": " + port + ", cap: [" + cap.mkString(", ") + "]}"
+  override def equals(other:Any) = other match {
+    case that:NetworkedTarget => this.addr == that.addr && this.port == that.port &&
+      super.equals(that)
+    case _ => false
+  }
 }
 
 object NetworkedTarget {
+  private val log = Log.getLog(this.getClass())
   def fromServiceInfo(info:ServiceInfo) = {
     val name = info.getName
     val address = info.getAddress
+    
+    var names = "["
+    val ps = info.getPropertyNames()
+    while (ps.hasMoreElements()){
+      names += ps.nextElement()
+      names += ", "
+    }
+    names += "]"
+    
+    log.debug("Info: " + names)
+    
     val capabilities = info.getPropertyString(NetworkedEffect.CAPABILITIES).split(",")
+    
+    
     val description = info.getPropertyString(NetworkedEffect.DESCRIPTION)
     val port = info.getPort
     
@@ -82,7 +118,8 @@ object NetworkedEffect {
   val MDNS_SERVICE_TYPE = "_stagehand._tcp.local."
   val CAPABILITIES = "capabilities"
   val DESCRIPTION = "description"
-    
+  
+  val system = ActorSystem("NetworkedEffect")  
       
   private var mdnsService:JmDNS = null
   private var mdnsServiceListener:ServiceListener = null
@@ -124,10 +161,10 @@ object NetworkedEffect {
   /**
    * Get available Stagehand services as 
    */
-  def targets = {
+  def targets:Set[NetworkedTarget] = {
     val list = mdnsService.list(MDNS_SERVICE_TYPE)
     
-    list.map(NetworkedTarget.fromServiceInfo(_))
+    list.map(NetworkedTarget.fromServiceInfo(_)).toSet
   }  
   
 }
