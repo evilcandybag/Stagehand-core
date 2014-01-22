@@ -5,19 +5,8 @@ import scala.xml.Elem
 import scala.swing._
 
 class ${artifactId}Effect extends Effect {
-  val displayName = "${artifactId}"
+  def componentName = "${artifactId}"
     
-  val editorComponent = new ${artifactId}Editor
-  val playerComponent = new ${artifactId}Player
+  def trigger = {}
 
-}
-
-class ${artifactId}Editor extends EditorComponent {
-  def generateInstructions = null
-  def getEditorGUI = null
-}
-
-class ${artifactId}Player extends PlayerComponent {
-  def executeInstructions {}
-  def readInstructions(in: Elem) {}
 }
