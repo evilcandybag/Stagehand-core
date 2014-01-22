@@ -6,6 +6,8 @@ import scala.actors.Actor
 import javax.swing.JOptionPane
 import scala.swing.BorderPanel.Position._
 import se.stagehand.lib.Log
+import se.stagehand.swing.gui.BetterDialog
+import java.awt.MouseInfo
 
 
 object EffectSelector {
@@ -18,7 +20,7 @@ object EffectSelector {
   
  
   
-  class EffectDialog(c: Class[_]) extends Dialog {
+  class EffectDialog(c: Class[_]) extends BetterDialog {
     private val log = Log.getLog(this.getClass())
     if (!classOf[StagehandComponent].isAssignableFrom(c))
       throw new IllegalArgumentException("Class needs to be a subclass of StagehandComponent!")
@@ -52,7 +54,7 @@ object EffectSelector {
       )) = South
     }
 
-    centerOnScreen()
+    centerOn(MouseInfo.getPointerInfo().getLocation())
     open()
     
     
