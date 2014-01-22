@@ -67,6 +67,14 @@ public class ComponentLinkerGUI extends JComponent
 
 		
 		g2d.setPaint ( Color.BLACK );
+		//If something is selected, draw a line between it and the mouse pointer.
+		if (last != null) {
+			Point mPos = MouseInfo.getPointerInfo().getLocation();
+			Point lPos = getRectCenter(last.getBounds());
+			
+			g2d.drawLine(lPos.x, lPos.y, mPos.x, mPos.y);
+		}
+		
 		for ( JComponent c1 : linked.keySet () )
 		{
 			java.util.List<JComponent> l = linked.get(c1);
