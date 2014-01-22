@@ -11,6 +11,7 @@ case class Vector2(x:Int,y:Int) {
   def +(v: Vector2): Vector2 = Vector2(x + v.x, y + v.y)
   def -(v: Vector2): Vector2 = Vector2(x - v.x, y - v.y)
   def length = Math.sqrt(x ^ 2 + y ^ 2)
+  def neg = Vector2(-x,-y)
 }
 
 /**
