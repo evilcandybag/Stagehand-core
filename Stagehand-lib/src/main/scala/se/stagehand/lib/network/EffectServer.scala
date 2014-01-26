@@ -49,7 +49,7 @@ abstract class EffectServer {
     private var attempts = 0
     private var retries = 3
     
-    IO(Tcp) ! Bind(self, new InetSocketAddress("localhost", port))
+    IO(Tcp) ! Bind(self, new InetSocketAddress(InetAddress.getLocalHost(), port))
     
     def receive = {
 	    case b @ Bound(address) => {
@@ -71,6 +71,7 @@ abstract class EffectServer {
 	    
 	    case c @ Connected(remote, local) => {
 	      val connection = sender
+	      log.log("Connected to client at: " + remote.getAddress() + ":" + remote.getPort())
 	      connection ! Register(worker.workerRef)
 	    }
     }
@@ -126,6 +127,9 @@ abstract class AbstractWorker(boss: EffectServer) {
 	        case Some(arf) => arf ! Write(data)
 	        case None => log.log("Attempting to send data " + data + " to nonexistent receiver")
 	      }
+	    }
+	    case m => {
+	      log.error("Received something unknown to us: " + m)
 	    }
 	  }
   }), "SERVER-WORKER")
