@@ -5,4 +5,5 @@ package se.stagehand.lib.scripting.network
  */
 object Capabilities {
   val SIMPLE_TEXT = "simpleText"
+  val IMG_BACKGROUND = "backgroundImage" 
 }
