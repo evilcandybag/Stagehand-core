@@ -40,6 +40,10 @@ abstract class EffectServer {
    */
   val worker:AbstractWorker
   
+  private var _port = 1337
+  private val mdnsServer = JmDNS.create(InetAddress.getLocalHost)
+  private var mdnsInfo:ServiceInfo = null
+  
   val system = ActorSystem("EffectServer")
   private val serverActor = system.actorOf(Props(new Actor {
     import Tcp._
@@ -54,6 +58,9 @@ abstract class EffectServer {
     def receive = {
 	    case b @ Bound(address) => {
 	      log.log("Bound server " + name + " at " + address.getAddress + ":" + address.getPort)
+	      mdnsInfo = ServiceInfo.create(NetworkedEffect.MDNS_SERVICE_TYPE, name, port + attempts, 1,1, propertyMap(properties))
+	      mdnsServer.registerService(mdnsInfo)
+	      log.log("Started mDNS-server with config: " + mdnsInfo)
 	    }
 	    
 	    case CommandFailed(b:Bind) => {
@@ -76,9 +83,7 @@ abstract class EffectServer {
 	    }
     }
   }),"SERVER-Connections")
-  private var _port = 1337
-  private val mdnsServer = JmDNS.create(InetAddress.getLocalHost)
-  private val mdnsInfo = ServiceInfo.create(NetworkedEffect.MDNS_SERVICE_TYPE, name, port, 1,1, propertyMap(properties))
+  
   
   
   /**
@@ -92,8 +97,6 @@ abstract class EffectServer {
   
   def main(args:Array[String]) {
     if (args.length > 0) _port = args(0).toInt
-    mdnsServer.registerService(mdnsInfo)
-    log.log("Started mDNS-server with config: " + mdnsInfo)
   }  
 }
 
