@@ -82,7 +82,7 @@ object Target {
     /**
      * Key-value separator.
      */
-    val KEY_VAL = ":"
+    val KEY_VAL = "\u8594"
       
     def encode(args:Arguments):String = {
       args.map(t => t._1 + KEY_VAL + t._2).mkString(SEPARATOR)
