@@ -41,6 +41,7 @@ class NetworkedTarget(name:String, val addr:InetAddress, val port:Int, cap:Array
     private implicit val _system = NetworkedEffect.system
     def receive = {
 	    case c @ Connected(remote,local) => {
+	      log.debug("Successfully connected to: " + remote.getAddress() + ":" + remote.getPort())
 	      val connection = sender
 	      _connected = true
 	      connection ! Register(self)
@@ -56,7 +57,10 @@ class NetworkedTarget(name:String, val addr:InetAddress, val port:Int, cap:Array
 	      }
 	      
 	    }
-	    case c @ ("CONNECT",socket:InetSocketAddress) => IO(Tcp) ! Connect(socket)
+	    case c @ ("CONNECT",socket:InetSocketAddress) => {
+	      log.debug("Attempting connection to server: " + socket.getAddress() + ":" + socket.getPort())
+	      IO(Tcp) ! Connect(socket)
+	    }
 	  }
   }))
   
