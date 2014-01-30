@@ -35,6 +35,11 @@ abstract class EffectServer {
    */
   def port:Int = _port
   
+  def stop {
+    serverActor ! Halt 
+    worker.stop
+  }
+  
   /**
    * The actor performing the actual 
    */
@@ -80,6 +85,10 @@ abstract class EffectServer {
 	      val connection = sender
 	      log.log("Connected to client at: " + remote.getAddress() + ":" + remote.getPort())
 	      connection ! Register(worker.workerRef)
+	    }
+	    
+	    case Halt => {
+	      context stop self
 	    }
     }
   }),"SERVER-Connections")
@@ -131,6 +140,7 @@ abstract class AbstractWorker(boss: EffectServer) {
 	        case None => log.log("Attempting to send data " + data + " to nonexistent receiver")
 	      }
 	    }
+	    case Halt => context stop self
 	    case m => {
 	      log.error("Received something unknown to us: " + m)
 	    }
@@ -145,4 +155,9 @@ abstract class AbstractWorker(boss: EffectServer) {
     workerRef ! Protocol.encode(args)
   }
   
+  def stop {
+    workerRef ! Halt
+  }
 }
+
+case class Halt
