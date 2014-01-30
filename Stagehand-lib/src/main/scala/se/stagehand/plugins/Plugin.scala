@@ -1,6 +1,7 @@
 package se.stagehand.plugins
 
 import se.stagehand.lib.scripting._
+import java.net.URL
 
 /**
  * Base trait for plugins.
@@ -15,6 +16,7 @@ trait Plugin {
    * A list of all the ComponentGUIs
    */
   val guis: List[ComponentGUI]
+  
 }
 object Plugin {
   
@@ -24,5 +26,14 @@ object Plugin {
   
   def newInstance(s: ScriptComponent):ScriptComponent = {
     s.getClass.newInstance().asInstanceOf[s.type]
+  }
+  
+  /**
+   * Get the path to a resource local to wherever owner resides.
+   */
+  def localResource(owner: Any, path: String):String = {
+    val location = owner.getClass.getProtectionDomain.getCodeSource.getLocation
+    
+    location.getProtocol() + "://" + location.getPath() + path
   }
 }
