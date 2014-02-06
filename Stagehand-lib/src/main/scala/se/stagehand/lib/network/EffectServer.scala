@@ -121,7 +121,7 @@ abstract class AbstractWorker(boss: EffectServer) {
   /**
    * Reference to the internal actor for this worker
    */
-  def workerRef = boss.system.actorOf(Props(new Actor {
+  lazy val workerRef = boss.system.actorOf(Props(new Actor {
       import Tcp._
       import context.system
 	  
