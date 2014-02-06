@@ -12,20 +12,23 @@ import java.awt.MouseInfo
 
 object EffectSelector {
   
-  def pickEffect:Seq[Class[_]] = {
-    val d = new EffectDialog(classOf[Effect])
+  def pickEffect(filter: (Class[_]) => Boolean):Seq[Class[_]] = {
+    val d = new EffectDialog(classOf[Effect],filter)
     d.classes
   }
-  def pickEffectsAsInstances = pickEffect.map(ID.newInstance[Effect](_))
   
- 
+  /**
+   * Filter is an optional parameter to sort out stuff you don't want.
+   */
+  def pickEffectsAsInstances(filter: (Class[_]) => Boolean = (c) => true) = pickEffect(filter).map(ID.newInstance[Effect](_))
   
-  class EffectDialog(c: Class[_]) extends BetterDialog {
+  
+  class EffectDialog(c: Class[_],filter: (Class[_]) => Boolean) extends BetterDialog {
     private val log = Log.getLog(this.getClass())
     if (!classOf[StagehandComponent].isAssignableFrom(c))
       throw new IllegalArgumentException("Class needs to be a subclass of StagehandComponent!")
     
-    private val effects = ID.getAllWithNames(c)
+    private val effects = ID.getAllWithNames(c).filter(x => filter(x._1))
     private val effectsview = new ListView(effects.map(new DisplayWrapper(_)))
     private var _classes = Seq[Class[_]]()
   

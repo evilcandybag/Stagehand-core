@@ -9,6 +9,11 @@ import se.stagehand.lib.scripting.Effect
 import java.awt.Dimension
 import scala.swing.BoxPanel
 import scala.swing.Orientation
+import scala.swing.Button
+import scala.swing.Action
+import se.stagehand.swing.assets.ImageAssets
+import scala.swing.Panel
+import se.stagehand.swing.editor.EffectSelector
 
 trait ComponentNode[+T <: StagehandComponent] extends Component {
   def component: T
@@ -24,6 +29,30 @@ trait ComponentNode[+T <: StagehandComponent] extends Component {
   }
 }
 
+/**
+ * Button class to be used to add effects to various things.
+ */
+class AddEffectsButton(gui: ComponentNode[_], pan: Panel, addMethod: (EditorEffectItem[_], Effect) => Unit, filter: (Class[_]) => Boolean) extends Button {
+    def this(g:ComponentNode[_], p: Panel, aM: (EditorEffectItem[_], Effect) => Unit) = this(g,p,aM,(c) => true)
+    preferredSize = new Dimension(20,20)
+    
+    action = new Action("") {
+      icon = ImageAssets.PLUS_ICON
+      def apply {
+        val efs = EffectSelector.pickEffectsAsInstances(filter)
+        
+        efs.foreach(x => {
+          val gui = GUIManager.getGUI[EffectGUI](x.getClass).editorItem(x)
+          addMethod(gui,x)
+          pan.repaint
+          pan.revalidate
+        })
+        
+		  gui.refresh
+      }
+    }
+}
+    
 trait ScriptNode[+T <: ScriptComponent] extends ComponentNode[T]{
   def component = script
   

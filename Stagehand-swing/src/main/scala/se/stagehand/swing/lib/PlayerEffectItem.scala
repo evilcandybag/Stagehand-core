@@ -29,7 +29,7 @@ abstract class TargetedPlayerEffectItem[T <: Effect with Targets](e:T) extends B
   /**
    * The actual PlayerEffectItem
    */
-  protected def effectItem: Component
+  def effectItem: Component
   val targetsButton = new TargetButton(effect)
   
   private var _eItem = effectItem
