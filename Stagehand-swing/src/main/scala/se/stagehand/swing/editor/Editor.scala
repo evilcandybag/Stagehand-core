@@ -14,6 +14,8 @@ object Editor extends SimpleSwingApplication {
   val panel = new EditorPanel
   val side = new SideMenu
   val menu = new MainMenu
+  private var _frame: MainFrame = null
+  def frame = _frame
   
   def top = new MainFrame {
     title = "Stagehand Editor"
@@ -21,6 +23,7 @@ object Editor extends SimpleSwingApplication {
     menuBar = menu
     peer.setGlassPane(GUIManager.glass)
     peer.getGlassPane().setVisible(true)
+    _frame = this
   }
   
   

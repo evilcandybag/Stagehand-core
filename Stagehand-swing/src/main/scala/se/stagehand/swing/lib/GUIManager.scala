@@ -45,6 +45,9 @@ object GUIManager {
   def register(gui:ComponentNode[_]) {
     _sn += gui
   }
+  def unregister(gui:ComponentNode[_]) {
+    _sn -= gui
+  }
   
   def registered(c: Class[_]): Boolean = {
     sgui.contains(c)

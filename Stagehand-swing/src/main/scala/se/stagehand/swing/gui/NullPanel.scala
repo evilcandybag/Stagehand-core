@@ -27,6 +27,9 @@ class NullPanel extends Panel {
     comp.repaint
     comp.revalidate
   }
+  def remove(comp: Component) {
+    contents -= comp
+  }
   
   class NullJPanel extends JPanel {
     setLayout(null)

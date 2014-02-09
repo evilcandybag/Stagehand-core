@@ -3,18 +3,22 @@ package se.stagehand.swing.lib
 import se.stagehand.lib.scripting.ScriptComponent
 import scala.swing.Button
 import scala.swing.event.MouseClicked
+import scala.swing.Action
+import se.stagehand.swing.editor.SelectionManager
 
 /**
  * Class for defining the button shown as a menu item for scripts.
  */
-abstract class EditorScriptButton(peer: ScriptComponent) extends Button {
+abstract class EditorScriptButton(val script: ScriptComponent) extends Button {
   
   type peertype
-  text = peer.componentName
-  listenTo(mouse.clicks)
+  text = script.componentName
+  peer.setToolTipText(script.description)
   
-  reactions += {
-    case e:MouseClicked => GUIManager.gotScript = Some(peer)
+  
+  action = new Action(script.componentName) {
+    def apply = {
+      SelectionManager.selectScript(script)
+    }
   }
-  
 }

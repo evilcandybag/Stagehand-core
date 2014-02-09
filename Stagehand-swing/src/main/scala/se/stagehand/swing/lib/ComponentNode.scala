@@ -14,6 +14,7 @@ import scala.swing.Action
 import se.stagehand.swing.assets.ImageAssets
 import scala.swing.Panel
 import se.stagehand.swing.editor.EffectSelector
+import se.stagehand.lib.scripting.ID
 
 trait ComponentNode[+T <: StagehandComponent] extends Component {
   def component: T
@@ -22,6 +23,15 @@ trait ComponentNode[+T <: StagehandComponent] extends Component {
     peer.setSize(preferredSize)
     revalidate
     repaint
+  }
+  
+  /**
+   * Removes this ComponentNode and its StagehandComponent from all managers.
+   * For StagehandComponents that contain other StagehandComponents, this needs to be overriden to properly deal with the children.
+   */
+  def remove {
+    GUIManager.unregister(this)
+    ID.remove(component)
   }
   
   class ContentPanel(name:String) extends BoxPanel(Orientation.Vertical) {

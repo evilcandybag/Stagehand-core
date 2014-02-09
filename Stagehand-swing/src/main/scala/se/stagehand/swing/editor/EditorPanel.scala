@@ -16,29 +16,22 @@ class EditorPanel extends NullPanel {
 	listenTo(mouse.clicks)	
 	
 	reactions += {
-	  case MouseClicked(_,_,_,c,_) if c == BUTTON2 => {
-	    GUIManager.gotScript = None
-	    ConnectorButton.active = None
-	  }
 	  case e:MouseClicked if GUIManager.gotScript.isDefined => {
 	    
 	    val script = ID.newInstance(GUIManager.gotScript.get)
 	    val gui = GUIManager.editorNode(script)
 //	    val gui = new Label("" + e.point)
-	    log.debug("EP " + e.point.toString() + " " + gui)
 	
 	    add(gui,e.point)
 	    GUIManager.register(gui)
 	    GUIManager.gotScript = None
 	    
-	    gui.revalidate
-	    gui.repaint
+	    SelectionManager.cancelSelection
+	    
+	    gui.refresh
 	    
 	    repaint
 	    revalidate
-	  }
-	  case e:MouseClicked if ConnectorButton.active.isDefined => {
-	    ConnectorButton.active = None
 	  }
 	}
 }

@@ -8,11 +8,19 @@ import java.util.*;
 public class ComponentLinkerGUI extends JComponent
 {
 	private Map<JComponent, java.util.List<JComponent>> linked;
+	private JComponent last = null;
 
 	public ComponentLinkerGUI ()
 	{
 		super ();
 		linked = new HashMap<JComponent, java.util.List<JComponent>> ();
+	}
+	
+	public void selected( JComponent c) {
+		last = c;
+	}
+	public void deselected(){
+		last = null;
 	}
 
 	public void linkOrUnlink( JComponent c1, JComponent c2 ) {
@@ -70,8 +78,9 @@ public class ComponentLinkerGUI extends JComponent
 		//If something is selected, draw a line between it and the mouse pointer.
 		if (last != null) {
 			Point mPos = MouseInfo.getPointerInfo().getLocation();
-			Point lPos = getRectCenter(last.getBounds());
-			
+			Point lPos = getRectCenter(getBoundsInWindow(last));
+
+			SwingUtilities.convertPointFromScreen(mPos, this);
 			g2d.drawLine(lPos.x, lPos.y, mPos.x, mPos.y);
 		}
 		
@@ -124,80 +133,5 @@ public class ComponentLinkerGUI extends JComponent
 	public boolean contains ( int x, int y )
 	{
 		return false;
-	}
-
-	private static ComponentLinkerGUI linker;
-
-	public static void main ( String[] args )
-	{
-		setupLookAndFeel ();
-
-		JFrame frame = new JFrame ();
-
-		linker = new ComponentLinkerGUI ();
-		frame.setGlassPane ( linker );
-		linker.setVisible ( true );
-
-		JPanel content = new JPanel ();
-		content.setLayout ( new GridLayout ( 10, 5, 5, 5 ) );
-		content.setBorder ( BorderFactory.createEmptyBorder ( 5, 5, 5, 5 ) );
-		frame.add ( content );
-
-		for ( int i = 0; i < 50; i++ )
-		{
-			final JButton button = new JButton ( "Button" + i );
-			button.addActionListener ( new ActionListener ()
-			{
-				public void actionPerformed ( ActionEvent e )
-				{
-					link ( button );
-				}
-			} );
-			content.add ( button );
-		}
-
-		frame.setDefaultCloseOperation ( JFrame.EXIT_ON_CLOSE );
-		frame.pack ();
-		frame.setLocationRelativeTo ( null );
-		frame.setVisible ( true );
-	}
-
-	private static JButton last = null;
-
-	private static void link ( JButton button )
-	{
-		if ( last == null )
-		{
-			last = button;
-		}
-		else
-		{
-			linker.linkOrUnlink ( last, button );
-			last = null;
-		}
-	}
-
-	private static void setupLookAndFeel ()
-	{
-		try
-		{
-			UIManager.setLookAndFeel ( UIManager.getSystemLookAndFeelClassName () );
-		}
-		catch ( ClassNotFoundException e )
-		{
-			e.printStackTrace ();
-		}
-		catch ( InstantiationException e )
-		{
-			e.printStackTrace ();
-		}
-		catch ( IllegalAccessException e )
-		{
-			e.printStackTrace ();
-		}
-		catch ( UnsupportedLookAndFeelException e )
-		{
-			e.printStackTrace ();
-		}
 	}
 }
