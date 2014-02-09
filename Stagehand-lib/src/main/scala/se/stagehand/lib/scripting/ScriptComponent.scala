@@ -19,6 +19,8 @@ abstract class ScriptComponent(id: Int) extends StagehandComponent(id) {
     }
   }
   
+  val description: String
+  
   protected val kind = "script"
   
   override def generateInstructions: Node = 
