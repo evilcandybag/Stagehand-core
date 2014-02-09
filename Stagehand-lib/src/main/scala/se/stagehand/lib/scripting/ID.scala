@@ -38,6 +38,12 @@ object ID {
     poolAdd(i, sc)
     return i
   }
+  def remove(id:Int) {
+    pool -= id
+  }
+  def remove(sc:StagehandComponent) {
+    remove(sc.id)
+  }
   
   private def poolAdd(i:Int, sc:StagehandComponent) {
     //if I cannot find a prototype of the same class, add one.
