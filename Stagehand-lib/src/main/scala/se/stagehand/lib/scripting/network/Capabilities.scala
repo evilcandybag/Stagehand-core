@@ -6,4 +6,7 @@ package se.stagehand.lib.scripting.network
 object Capabilities {
   val SIMPLE_TEXT = "simpleText"
   val IMG_BACKGROUND = "backgroundImage" 
+  val MUSIC_BACKGROUND = "backgroundMusic"
+  val IMG_FOREGROUND = "foregroundImage"
+  val SOUND_EFFECT = "soundEffect"
 }
