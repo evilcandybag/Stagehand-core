@@ -124,7 +124,7 @@ trait OutputGUI[T <: ScriptComponent with Output] extends EditorScriptNode[T] {
 
 abstract class ConnectorButton[T <: ConnectorButton[_]] extends Button {
   def middle = new Point(location.x + (bounds.width/2),location.y + (bounds.height/2))
-  preferredSize = new Dimension(10,10)
+  preferredSize = new Dimension(12,12)
 
   
   val me = this
