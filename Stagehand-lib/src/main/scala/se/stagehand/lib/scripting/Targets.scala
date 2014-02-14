@@ -22,12 +22,6 @@ trait Targets extends Effect {
   }
   
   /**
-   * Generate run arguments for the targets.
-   * Run argument format is name:value. One argument per index.
-   */
-  def runArgs: Target.Protocol.Arguments
-  
-  /**
    * The required capabilities for a service to serve this effect.
    */
   def requirements:Set[String]
@@ -78,11 +72,12 @@ object Target {
     /**
      * List separator.
      */
-    val SEPARATOR = ","
+    val SEPARATOR = "\uE000"
     /**
      * Key-value separator.
      */
-    val KEY_VAL = "\u8594"
+    val KEY_VAL = "\uE001"
+    val KEY_KEY = "\uE002"
       
     def encode(args:Arguments):String = {
       args.map(t => t._1 + KEY_VAL + t._2).mkString(SEPARATOR)

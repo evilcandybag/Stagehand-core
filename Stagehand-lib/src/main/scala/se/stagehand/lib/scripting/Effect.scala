@@ -13,12 +13,25 @@ import scala.collection.immutable.ListSet
 abstract class Effect(id:Int) extends StagehandComponent(id) {
   def this() = this(ID.unique)
   
+  private var _sourceArgs = Map[String,String]()
+  /**
+   * Property that can be used by a parent StagehandComponent to inject information into contained Effects
+   */
+  def sourceArgs = _sourceArgs
+  def addArg(key:String, value: String) = _sourceArgs += (key -> value)
+  def removeArg(key:String) = _sourceArgs -= key
+  
   protected val kind = "effect"
   
   /**
    * Trigger this effect 
    */
   def trigger: Unit
+  
+  /**
+   * Arguments to be used when the effect is triggered.
+   */
+  def runArgs: Target.Protocol.Arguments = sourceArgs
   
   def generateInstructions = 
     <effect class={this.getClass.getName}>{idXML}</effect>
