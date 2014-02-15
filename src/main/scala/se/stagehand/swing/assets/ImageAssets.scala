@@ -4,6 +4,7 @@ import javax.swing.ImageIcon
 import se.stagehand.lib.Log
 import scala.swing.Dialog
 import java.io.File
+import java.net.URL
 
 object ImageAssets {
   private val log = Log.getLog(this.getClass())
@@ -19,6 +20,14 @@ object ImageAssets {
   val TREE = new File("assets/deciduous-tree-16.png")
   val NOTE = new File("assets/note-16.png")
   val AUDIO = new File("assets/audio-16.png")
+  
+  /**
+   * Online references.
+   */
+  val BG_WEB = new URL("http://stagehand.se/downloads/bg-placeholder.png")
+  val FG_WEB = new URL("http://stagehand.se/downloads/orc_placeholder.png")
+  val BGM_WEB = new URL("http://stagehand.se/downloads/bg-placeholder.png")
+  val SFX_WEB = new URL("http://stagehand.se/downloads/bg-placeholder.png")
   
   /**
    * Image icon references
