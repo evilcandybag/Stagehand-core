@@ -26,8 +26,6 @@ object ImageAssets {
    */
   val BG_WEB = new URL("http://stagehand.se/downloads/bg-placeholder.png")
   val FG_WEB = new URL("http://stagehand.se/downloads/orc_placeholder.png")
-  val BGM_WEB = new URL("http://stagehand.se/downloads/bg-placeholder.png")
-  val SFX_WEB = new URL("http://stagehand.se/downloads/bg-placeholder.png")
   
   /**
    * Image icon references
