@@ -1,4 +1,4 @@
-Stagehand-core
-==============
+Stagehand-lib
+=============
 
-Core supermodule for the stagehand core repositories
+Libraries for Stagehand
