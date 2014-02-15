@@ -2,6 +2,7 @@ package se.stagehand.swing.gui
 
 import scala.swing._
 import se.stagehand.swing.lib.Vector2
+import java.awt.MouseInfo
 
 object GUIUtils {
   /**
@@ -16,5 +17,7 @@ object GUIUtils {
   def centerOf(rect:Rectangle) {
     Vector2( rect.width / 2, rect.height / 2)
   }
+  
+  def mouse = MouseInfo.getPointerInfo()
   
 }
