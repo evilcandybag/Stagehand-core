@@ -23,6 +23,7 @@ import se.stagehand.lib.scripting.Input
 import scala.swing.GridPanel
 import scala.swing.FlowPanel
 import scala.swing.Component
+import se.stagehand.swing.lib.ComponentNode
 
 class PlayerPanel extends FlowPanel {
   private val log = Log.getLog(this.getClass())
@@ -41,7 +42,16 @@ class PlayerPanel extends FlowPanel {
   
   def add(c:Component) = contents += c
   
+   def clear {
+      val nodes = contents.toIndexedSeq.filter(_ match {
+        case cn:ComponentNode[_] => true
+        case _ => false
+      })
+      nodes.foreach(c => c.asInstanceOf[ComponentNode[_]].remove)
+    }
+  
   def fromXML(xml:Node) {
+    clear
     ID.clearInstances
     val scxml = (xml \\ "components") \ "script"
     val fxxml = (xml \\ "components") \ "effect"

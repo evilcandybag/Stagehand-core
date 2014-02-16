@@ -71,9 +71,12 @@ abstract class EditorScriptNode[T <: ScriptComponent](sc: T) extends BorderPanel
     contents += new MenuItem(new Action("Delete") {
       def apply {
         me.remove
-        Editor.panel.remove(me)
       }
     })
+  }
+  override def remove {
+    super.remove
+    Editor.panel.remove(me)
   }
   
   def displayName:String = script.displayName
