@@ -2,6 +2,7 @@ package se.stagehand.plugins
 
 import se.stagehand.lib.scripting._
 import java.net.URL
+import se.stagehand.lib.Log
 
 /**
  * Base trait for plugins.
@@ -19,7 +20,6 @@ trait Plugin {
   
 }
 object Plugin {
-  
   def newInstance(e:Effect):Effect = {
     e.getClass.newInstance().asInstanceOf[e.type]
   }
@@ -28,12 +28,5 @@ object Plugin {
     s.getClass.newInstance().asInstanceOf[s.type]
   }
   
-  /**
-   * Get the path to a resource local to wherever owner resides.
-   */
-  def localResource(owner: Any, path: String):String = {
-    val location = owner.getClass.getProtectionDomain.getCodeSource.getLocation
-    
-    location.getProtocol() + "://" + location.getPath() + path
-  }
+  
 }

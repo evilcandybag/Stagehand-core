@@ -44,3 +44,6 @@ build.log
 /plugins
 
 /stage.xml
+/dependency-reduced-pom.xml
+/stagehand.jar
+/stagehand.tar

@@ -1,0 +1,1 @@
+tar -cvf stagehand.tar plugins stagehand.jar runscripts/*
