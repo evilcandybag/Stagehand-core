@@ -15,6 +15,8 @@ import se.stagehand.lib.scripting.Target
 import akka.actor.ActorSystem
 import scala.collection.JavaConversions
 import java.util.HashMap
+import java.net.NetworkInterface
+import java.net.Inet4Address
 
 /**
  * Abstract class for an effect servers connection handling. Must be extended as an object to work properly.
@@ -46,7 +48,8 @@ abstract class EffectServer {
   val worker:AbstractWorker
   
   private var _port = 1337
-  private val mdnsServer = JmDNS.create(InetAddress.getLocalHost)
+  private val localIP = getLocalIP
+  private val mdnsServer = JmDNS.create(localIP)
   private var mdnsInfo:ServiceInfo = null
   
   val system = ActorSystem("EffectServer")
@@ -58,7 +61,7 @@ abstract class EffectServer {
     private var attempts = 0
     private var retries = 3
     
-    IO(Tcp) ! Bind(self, new InetSocketAddress(InetAddress.getLocalHost(), port))
+    IO(Tcp) ! Bind(self, new InetSocketAddress(localIP, port))
     
     def receive = {
 	    case b @ Bound(address) => {
@@ -93,7 +96,23 @@ abstract class EffectServer {
     }
   }),"SERVER-Connections")
   
-  
+  private def getLocalIP:InetAddress = {
+    var ias = List[InetAddress]()
+    var ni = NetworkInterface.getNetworkInterfaces() 
+    while (ni.hasMoreElements()) {
+      var ia = ni.nextElement().getInetAddresses() 
+      while (ia.hasMoreElements()) {
+        val i = ia.nextElement()
+        ias = i :: ias
+      }
+    }
+    var addr = InetAddress.getLocalHost()
+    ias.foreach(_ match {
+      case i:Inet4Address if !i.isLoopbackAddress() => addr = i
+      case _ => {}
+    })
+    addr
+  }
   
   /**
    * Convert a Scala Map to a java.util.Map
