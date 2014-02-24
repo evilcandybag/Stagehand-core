@@ -40,6 +40,7 @@ abstract class EditorScriptNode[T <: ScriptComponent](sc: T) extends BorderPanel
     this.reactions += {
       case e:MouseClicked => {
         val s = javax.swing.JOptionPane.showInputDialog(this.peer, "Enter new name", displayName)
+        script.displayName = s
         title.text = if (s == null) displayName else s
       }
     }

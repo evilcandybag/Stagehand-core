@@ -24,7 +24,6 @@ object EffectSelector {
   
   
   class EffectDialog(c: Class[_],filter: (Class[_]) => Boolean) extends BetterDialog {
-    private val log = Log.getLog(this.getClass())
     if (!classOf[StagehandComponent].isAssignableFrom(c))
       throw new IllegalArgumentException("Class needs to be a subclass of StagehandComponent!")
     

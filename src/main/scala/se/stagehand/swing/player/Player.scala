@@ -8,8 +8,11 @@ object Player extends SimpleSwingApplication {
 
   val panel = new PlayerPanel
   PluginManager.init
-  
-  val ui = panel
+  val sidebar = new SideBar
+  val ui = new BorderPanel {
+    layout(panel) = BorderPanel.Position.Center
+    layout(sidebar) = BorderPanel.Position.East
+  }
   
   def top = new MainFrame {
     title = "Stagehand Player"

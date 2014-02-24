@@ -7,12 +7,18 @@ import java.util.jar.JarFile
 import java.net.URLClassLoader
 import java.util.jar.JarEntry
 import scala.xml.XML
+import se.stagehand.lib.FileManager
+import se.stagehand.lib.Log
 
 object PluginManager {
+  private val log = Log.getLog(this.getClass())
   
   private var effectsMap: Map[String, EffectPlugin] = null
   private var scriptMap: Map[String, ScriptPlugin] = null
 
+  private val path = FileManager.localPath(this)
+  log.debug("PATH: " + path)
+  
   /**
    * Load all plugins into the program.
    */
@@ -20,7 +26,12 @@ object PluginManager {
     effectsMap = Map[String, EffectPlugin]()
     scriptMap = Map[String, ScriptPlugin]()
     
-    val pluginDir = new File("plugins")
+    var pluginDir = new File("plugins")
+    if (!pluginDir.exists()) {
+      val p = path.substring(0,path.lastIndexOf("/") + 1) + "plugins"
+      log.debug("Creating with alternative path: " + p)
+      pluginDir = new File(p)
+    }
     val files = pluginDir.listFiles(new FileFilter(){
       def accept(x:File) = x.getPath().endsWith("jar")
     })    

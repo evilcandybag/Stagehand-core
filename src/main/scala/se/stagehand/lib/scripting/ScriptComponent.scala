@@ -24,22 +24,29 @@ abstract class ScriptComponent(id: Int) extends StagehandComponent(id) {
   protected val kind = "script"
   
   override def generateInstructions: Node = 
-    <script class={this.getClass().getName()}>{idXML}</script>
+    <script class={this.getClass().getName()}>{idXML}<name>{displayName}</name></script>
   
   /**
    * Execute the given instructions over the assigned targets. 
    */
   def executeInstructions(params:Any*): Unit
 
-  
+  override def readInstructions(in:Node) {
+    super.readInstructions(in)
+    val name = (in \\ "name")(0).text
+    displayName = name
+  }
 }
 
 object ScriptComponent {
   def fromXML[T <: ScriptComponent](e:Node):T = {
     val className = (e \ "@class").text
     val id = (e \ "id")(0).text.toInt
+    val name = (e \ "name")(0).text
     val sc = ID.newInstance[T](className,id)
 //    sc.readInstructions(e)
+    sc.displayName = name
+    
     sc
   }
 }

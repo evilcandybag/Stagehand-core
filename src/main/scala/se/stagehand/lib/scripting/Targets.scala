@@ -5,7 +5,6 @@ import se.stagehand.lib.Log
 
 trait Targets extends Effect {
   private var _targets:ListSet[Target] = ListSet()
-  protected val log = Log.getLog(this.getClass())
   
   def addTarget(tar: Target) {
     _targets = _targets + tar
@@ -18,6 +17,7 @@ trait Targets extends Effect {
   def targets = _targets
   
   def trigger {
+    log.debug("sArgs_ " + sourceArgs)
     targets.foreach(_.run(runArgs))
   }
   
@@ -37,21 +37,34 @@ trait Targets extends Effect {
   /**
    * Sort out the Targets that fulfill one or more of this Effect's requirements.
    */
-  def validTargets(targets: Set[_ <: Target]):Set[_ <: Target] = targets.filter(t => {
-    t.capabilities.find(c => requirements.contains(c)).isDefined
-  })
-  
+//  def validTargets(targets: Set[_ <: Target]):Set[_ <: Target] = targets.filter(t => {
+//    t.capabilities.find(c => requirements.contains(c)).isDefined
+//  })
+  def validTargets(targets: Set[_ <: Target]):Set[_ <: Target] = {
+    val ts = for (t <- targets) yield {
+      val v = (t,t.capabilities.find(c => requirements.contains(c)).isDefined)
+      log.debug("target: " + v )
+      v._1.capabilities.foreach(x => log.debug("" + x))
+      v
+    }
+    
+    ts.filter(_._2).map(_._1)
+  }
   
 }
 
 /**
  * The abstract superclass for effect targets.
  */
-abstract class Target(val name:String, val capabilities:Array[String], val description:String) {
+abstract class Target(val name:String, caps:Array[String], val description:String) {
   import Target._
   
   def run(args:Protocol.Arguments)
   def callback(args:Protocol.Arguments)
+  def prettyName:String = name
+  def prettyDescription:String = description
+  
+  def capabilities = caps
   
   /**
    * Two targets are equal IFF they have the same name.
@@ -67,6 +80,13 @@ abstract class Target(val name:String, val capabilities:Array[String], val descr
 }
 
 object Target {
+  private var _targetSources: List[() => Set[Target]] = List()
+  def addSource(fun: () => Set[Target]) = {
+    _targetSources = fun :: _targetSources
+  } 
+  
+  def allTargets = _targetSources.map(_()).flatten
+  
   object Protocol {
     type Arguments = Map[String,String]
     /**

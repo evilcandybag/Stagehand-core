@@ -3,6 +3,7 @@ package se.stagehand.lib.scripting
 import scala.swing.Panel
 import scala.xml._
 import scala.collection.immutable.ListSet
+import se.stagehand.lib.Log
 
 /**
  * An effect is the smallest component in Stagehand scripting. It represents a 
@@ -12,13 +13,14 @@ import scala.collection.immutable.ListSet
  */
 abstract class Effect(id:Int) extends StagehandComponent(id) {
   def this() = this(ID.unique)
+  protected val log = Log.getLog(this.getClass())
   
   private var _sourceArgs = Map[String,String]()
   /**
    * Property that can be used by a parent StagehandComponent to inject information into contained Effects
    */
   def sourceArgs = _sourceArgs
-  def addArg(key:String, value: String) = _sourceArgs += (key -> value)
+  def addArg(key:String, value: String) = { _sourceArgs += (key -> value); log.debug("SourceArgs " + _sourceArgs) }
   def removeArg(key:String) = _sourceArgs -= key
   
   protected val kind = "effect"

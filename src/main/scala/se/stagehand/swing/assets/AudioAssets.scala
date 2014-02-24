@@ -8,6 +8,6 @@ object AudioAssets {
   val BACKGROUND_MUSIC_PLACEHOLDER = new File("assets/anticipation.ogg")
   
   
-  val BGM_WEB = new URL("http://stagehand.se/downloads/arr.wav")
-  val SFX_WEB = new URL("http://stagehand.se/downloads/EntertheWoods.mp3")
+  val SFX_WEB = new URL("http://stagehand.se/downloads/arr.wav")
+  val BGM_WEB = new URL("http://stagehand.se/downloads/EntertheWoods.mp3")
 }

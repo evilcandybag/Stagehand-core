@@ -24,6 +24,7 @@ abstract class NetworkedEffect(id:Int) extends Effect(id) with Targets {
   override def addTarget(tar:Target) {
     tar match {
       case t:NetworkedTarget => t.connect
+      case _ => {}
     }
     super.addTarget(tar)
   }
@@ -73,11 +74,27 @@ class NetworkedTarget(name:String, val addr:InetAddress, val port:Int, cap:Array
   }
   
   def run(args:Protocol.Arguments) {
+    if (!_connected) connect
     io ! ByteString.apply(Protocol.encode(args))
   }
   def callback(args:Protocol.Arguments) {
     log.debug("Received callback with args " + args)
   }
+  private def targetDescription(tar: NetworkedTarget) = {
+     }
+  override def prettyDescription = {
+     val sb = new StringBuilder
+      sb.append(name).append('\n')
+      sb.append(addr).append(':').append(port).append('\n')
+      sb.append('\n')
+      sb.append(capabilities.mkString(", ")).append('\n')
+      sb.append('\n')
+      sb.append(description)
+      sb.toString
+    
+  }
+  
+  override def prettyName = name + " @" + addr + ":" + port
   
   override def toString = "NetworkedTarget{" + name + ", " + addr + ": " + port + ", cap: [" + cap.mkString(", ") + "]}"
   override def equals(other:Any) = other match {
@@ -165,10 +182,10 @@ object NetworkedEffect {
   /**
    * Get available Stagehand services as 
    */
-  def targets:Set[NetworkedTarget] = {
+  val targets:() => Set[Target] = () => {
     val list = mdnsService.list(MDNS_SERVICE_TYPE)
     
     list.map(NetworkedTarget.fromServiceInfo(_)).toSet
   }  
-  
+  Target.addSource(targets)
 }

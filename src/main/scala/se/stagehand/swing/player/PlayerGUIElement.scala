@@ -58,3 +58,5 @@ abstract class PlayerScriptNode[T <: ScriptComponent](sc:T) extends BorderPanel 
   }
   
 }
+
+trait Sidebarred[T <: ScriptComponent] extends PlayerScriptNode[T]

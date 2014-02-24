@@ -84,6 +84,9 @@ class PlayerPanel extends FlowPanel {
       val pn = gui.playerNode(sc)
       GUIManager.register(pn)
       pn match {
+        case node:Sidebarred[_] => {
+          Player.sidebar.contents += node
+        }
         case node:PlayerScriptNode[_] => {
 //          add(node,pos)
           add(node)

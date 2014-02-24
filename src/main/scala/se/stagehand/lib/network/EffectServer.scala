@@ -24,10 +24,17 @@ import java.net.Inet4Address
 abstract class EffectServer {
   protected val log = Log.getLog(this.getClass())
   
+ 
+  
   /**
    * Name of the EffectServer
    */
-  def name:String
+  def defaultName:String
+  
+  def name:String = _name
+  
+  
+  
   /**
    * Property values of this EffectServer
    */
@@ -47,6 +54,7 @@ abstract class EffectServer {
    */
   val worker:AbstractWorker
   
+  var _name = defaultName
   private var _port = 1337
   private val localIP = getLocalIP
   private val mdnsServer = JmDNS.create(localIP)
@@ -124,7 +132,7 @@ abstract class EffectServer {
   }
   
   def main(args:Array[String]) {
-    if (args.length > 0) _port = args(0).toInt
+    if (args.length > 0) _name = args(0)
   }  
 }
 

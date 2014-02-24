@@ -1,0 +1,409 @@
+<?xml version="1.0" ?>
+<stage>
+<components>
+    <effect class="se.stagehand.effects.compound.CompoundEffect">
+        <id>5</id>
+        <effects></effects>
+    </effect>
+    <effect class="se.stagehand.plugins.effect.popuptext.NetworkedPopupText">
+        <id>10</id>
+        <message>message</message>
+    </effect>
+    <effect class="se.stagehand.plugins.ambience.BackgroundImage">
+        <id>56</id>
+        <url>http://pxl.se/b/qdhKar.jpg</url>
+    </effect>
+    <effect class="se.stagehand.plugins.ambience.BackgroundImage">
+        <id>42</id>
+        <url>http://stagehand.se/downloads/bg-placeholder.png</url>
+    </effect>
+    <effect class="se.stagehand.plugins.ambience.BackgroundImage">
+        <id>24</id>
+        <url>http://pxl.se/b/AmawXY.jpg</url>
+    </effect>
+    <effect class="se.stagehand.plugins.ambience.BackgroundImage">
+        <id>37</id>
+        <url>http://pxl.se/b/2xSyWkngF.jpg</url>
+    </effect>
+    <script class="se.stagehand.trpg.Scene">
+        <id>25</id>
+        <name>Water</name>
+        <effects>
+            <id>39</id>
+        </effects>
+    </script>
+    <effect class="se.stagehand.plugins.ambience.ForegroundImage">
+        <id>52</id>
+        <url>http://pxl.se/b/1hLx4ocz.png</url>
+        <scale>
+            <x>30%</x>
+            <y>auto</y>
+        </scale>
+    </effect>
+    <script class="se.stagehand.controls.TargetGroup">
+        <id>14</id>
+        <name>All Players</name>
+    </script>
+    <script class="se.stagehand.trpg.Scene">
+        <id>20</id>
+        <name>Hut exterior</name>
+        <effects>
+            <id>24</id>
+        </effects>
+    </script>
+    <effect class="se.stagehand.plugins.ambience.BackgroundMusic">
+        <id>46</id>
+        <url>https://dl.dropboxusercontent.com/u/6180612/Chase%205.mp3</url>
+    </effect>
+    <script class="se.stagehand.trpg.Event">
+        <id>57</id>
+        <name>Breaking in!</name>
+        <effects>
+            <id>58</id>
+        </effects>
+    </script>
+    <script class="se.stagehand.trpg.Event">
+        <id>29</id>
+        <name>Event #29</name>
+        <effects>
+            <id>30</id>
+        </effects>
+    </script>
+    <effect class="se.stagehand.plugins.ambience.BackgroundImage">
+        <id>1</id>
+        <url>http://stagehand.se/downloads/bg-placeholder.png</url>
+    </effect>
+    <script class="se.stagehand.controls.Hotkey">
+        <id>6</id>
+        <name>Hotkey #6</name>
+        <key>0</key>
+        <outputs></outputs>
+    </script>
+    <effect class="se.stagehand.plugins.ambience.BackgroundImage">
+        <id>28</id>
+        <url>http://pxl.se/b/nhZ0N.jpg</url>
+    </effect>
+    <effect class="se.stagehand.plugins.ambience.BackgroundImage">
+        <id>38</id>
+        <url>http://pxl.se/b/Kim8BA.jpg</url>
+    </effect>
+    <script class="se.stagehand.trpg.Scene">
+        <id>21</id>
+        <name>Campfire</name>
+        <effects>
+            <id>28</id>
+        </effects>
+    </script>
+    <effect class="se.stagehand.plugins.ambience.SoundEffect">
+        <id>33</id>
+        <url>https://dl.dropboxusercontent.com/u/6180612/wolfhowl.wav</url>
+    </effect>
+    <effect class="se.stagehand.plugins.effect.popuptext.PopupText">
+        <id>9</id>
+        <message>message</message>
+    </effect>
+    <effect class="se.stagehand.plugins.ambience.BackgroundImage">
+        <id>53</id>
+        <url>http://pxl.se/b/LG0sTo.jpg</url>
+    </effect>
+    <script class="se.stagehand.controls.TargetGroup">
+        <id>13</id>
+        <name>Main Screen</name>
+    </script>
+    <effect class="se.stagehand.plugins.ambience.BackgroundMusic">
+        <id>41</id>
+        <url>https://dl.dropboxusercontent.com/u/6180612/Clues%203.mp3</url>
+    </effect>
+    <effect class="se.stagehand.plugins.ambience.BackgroundMusic">
+        <id>2</id>
+        <url>http://stagehand.se/downloads/arr.wav</url>
+    </effect>
+    <effect class="se.stagehand.effects.compound.CompoundEffect">
+        <id>32</id>
+        <effects>
+            <id>33</id>
+            <id>34</id>
+        </effects>
+    </effect>
+    <effect class="se.stagehand.plugins.ambience.ForegroundImage">
+        <id>34</id>
+        <url>http://pxl.se/b/dTz7F0cv3.png</url>
+        <scale>
+            <x>30%</x>
+            <y>auto</y>
+        </scale>
+    </effect>
+    <script class="se.stagehand.trpg.Event">
+        <id>45</id>
+        <name>Intense music</name>
+        <effects>
+            <id>46</id>
+        </effects>
+    </script>
+    <script class="se.stagehand.trpg.Scene">
+        <id>22</id>
+        <name>Hut interior</name>
+        <effects>
+            <id>38</id>
+        </effects>
+    </script>
+    <effect class="se.stagehand.plugins.ambience.BackgroundMusic">
+        <id>44</id>
+        <url>https://dl.dropboxusercontent.com/u/6180612/Bad%20Vibes.mp3</url>
+    </effect>
+    <effect class="se.stagehand.plugins.ambience.BackgroundImage">
+        <id>27</id>
+        <url>http://stagehand.se/downloads/bg-placeholder.png</url>
+    </effect>
+    <script class="se.stagehand.trpg.Event">
+        <id>12</id>
+        <name>Event #12</name>
+        <effects></effects>
+    </script>
+    <effect class="se.stagehand.plugins.ambience.BackgroundImage">
+        <id>49</id>
+        <url>http://pxl.se/b/z9SDeAl0r.jpg</url>
+    </effect>
+    <script class="se.stagehand.controls.TargetGroup">
+        <id>7</id>
+        <name>Target Group #7</name>
+    </script>
+    <effect class="se.stagehand.plugins.ambience.BackgroundImage">
+        <id>39</id>
+        <url>http://pxl.se/b/2Z1MtX.jpg</url>
+    </effect>
+    <effect class="se.stagehand.plugins.ambience.ForegroundImage">
+        <id>3</id>
+        <url>http://stagehand.se/downloads/orc_placeholder.png</url>
+        <scale>
+            <x>auto</x>
+            <y>auto</y>
+        </scale>
+    </effect>
+    <script class="se.stagehand.trpg.Event">
+        <id>35</id>
+        <name>Wolf Howling</name>
+        <effects>
+            <id>36</id>
+        </effects>
+    </script>
+    <script class="se.stagehand.trpg.Scene">
+        <id>48</id>
+        <name>Search</name>
+        <effects>
+            <id>49</id>
+        </effects>
+    </script>
+    <effect class="se.stagehand.effects.compound.CompoundEffect">
+        <id>18</id>
+        <effects>
+            <id>19</id>
+        </effects>
+    </effect>
+    <script class="se.stagehand.trpg.Event">
+        <id>50</id>
+        <name>See something</name>
+        <effects>
+            <id>53</id>
+        </effects>
+    </script>
+    <script class="se.stagehand.controls.TargetGroup">
+        <id>16</id>
+        <name>Player 2</name>
+    </script>
+    <script class="se.stagehand.trpg.Event">
+        <id>31</id>
+        <name>Wolf appears</name>
+        <effects>
+            <id>32</id>
+        </effects>
+    </script>
+    <script class="se.stagehand.trpg.Scene">
+        <id>11</id>
+        <name>Scene #11</name>
+        <effects></effects>
+    </script>
+    <script class="se.stagehand.trpg.Event">
+        <id>43</id>
+        <name>Scary music</name>
+        <effects>
+            <id>44</id>
+        </effects>
+    </script>
+    <script class="se.stagehand.trpg.Event">
+        <id>40</id>
+        <name>Normal music</name>
+        <effects>
+            <id>41</id>
+        </effects>
+    </script>
+    <effect class="se.stagehand.plugins.ambience.BackgroundImage">
+        <id>26</id>
+        <url>http://stagehand.se/downloads/bg-placeholder.png</url>
+    </effect>
+    <script class="se.stagehand.trpg.Scene">
+        <id>55</id>
+        <name>Deeper in forest</name>
+        <effects>
+            <id>56</id>
+        </effects>
+    </script>
+    <script class="se.stagehand.trpg.Scene">
+        <id>23</id>
+        <name>Scary grave</name>
+        <effects>
+            <id>37</id>
+        </effects>
+    </script>
+    <script class="se.stagehand.controls.DynamicTargets">
+        <id>8</id>
+        <name>Dynamic Targets #8</name>
+    </script>
+    <effect class="se.stagehand.plugins.ambience.SoundEffect">
+        <id>58</id>
+        <url>https://dl.dropboxusercontent.com/u/6180612/Loud%20smattering.wav</url>
+    </effect>
+    <effect class="se.stagehand.plugins.ambience.SoundEffect">
+        <id>36</id>
+        <url>https://dl.dropboxusercontent.com/u/6180612/wolfhowl.wav</url>
+    </effect>
+    <effect class="se.stagehand.plugins.ambience.ForegroundImage">
+        <id>30</id>
+        <url>http://stagehand.se/downloads/orc_placeholder.png</url>
+        <scale>
+            <x>auto</x>
+            <y>auto</y>
+        </scale>
+    </effect>
+    <script class="se.stagehand.trpg.Event">
+        <id>51</id>
+        <name>A bone!</name>
+        <effects>
+            <id>52</id>
+        </effects>
+    </script>
+    <effect class="se.stagehand.plugins.ambience.BackgroundImage">
+        <id>19</id>
+        <url>http://stagehand.se/downloads/bg-placeholder.png</url>
+    </effect>
+    <effect class="se.stagehand.plugins.ambience.SoundEffect">
+        <id>4</id>
+        <url>http://stagehand.se/downloads/EntertheWoods.mp3</url>
+    </effect>
+    <script class="se.stagehand.controls.DynamicTargets">
+        <id>47</id>
+        <name>One of the players</name>
+    </script>
+    <script class="se.stagehand.controls.TargetGroup">
+        <id>15</id>
+        <name>Player 1</name>
+    </script>
+</components>
+<nodes>
+    <node>
+        <id>45</id>
+        <locx>619</locx>
+        <locy>717</locy>
+    </node>
+    <node>
+        <id>35</id>
+        <locx>418</locx>
+        <locy>552</locy>
+    </node>
+    <node>
+        <id>22</id>
+        <locx>524</locx>
+        <locy>301</locy>
+    </node>
+    <node>
+        <id>20</id>
+        <locx>492</locx>
+        <locy>60</locy>
+    </node>
+    <node>
+        <id>51</id>
+        <locx>275</locx>
+        <locy>269</locy>
+    </node>
+    <node>
+        <id>23</id>
+        <locx>410</locx>
+        <locy>427</locy>
+    </node>
+    <node>
+        <id>21</id>
+        <locx>337</locx>
+        <locy>158</locy>
+    </node>
+    <node>
+        <id>29</id>
+        <locx>227</locx>
+        <locy>15</locy>
+    </node>
+    <node>
+        <id>25</id>
+        <locx>650</locx>
+        <locy>450</locy>
+    </node>
+    <node>
+        <id>15</id>
+        <locx>665</locx>
+        <locy>231</locy>
+    </node>
+    <node>
+        <id>13</id>
+        <locx>675</locx>
+        <locy>142</locy>
+    </node>
+    <node>
+        <id>50</id>
+        <locx>92</locx>
+        <locy>269</locy>
+    </node>
+    <node>
+        <id>40</id>
+        <locx>661</locx>
+        <locy>597</locy>
+    </node>
+    <node>
+        <id>47</id>
+        <locx>686</locx>
+        <locy>86</locy>
+    </node>
+    <node>
+        <id>48</id>
+        <locx>75</locx>
+        <locy>143</locy>
+    </node>
+    <node>
+        <id>57</id>
+        <locx>187</locx>
+        <locy>560</locy>
+    </node>
+    <node>
+        <id>43</id>
+        <locx>805</locx>
+        <locy>595</locy>
+    </node>
+    <node>
+        <id>16</id>
+        <locx>671</locx>
+        <locy>272</locy>
+    </node>
+    <node>
+        <id>14</id>
+        <locx>667</locx>
+        <locy>189</locy>
+    </node>
+    <node>
+        <id>31</id>
+        <locx>822</locx>
+        <locy>324</locy>
+    </node>
+    <node>
+        <id>55</id>
+        <locx>190</locx>
+        <locy>411</locy>
+    </node>
+</nodes>
+</stage>

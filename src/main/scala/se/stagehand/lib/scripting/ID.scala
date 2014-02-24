@@ -1,18 +1,22 @@
 package se.stagehand.lib.scripting
 
 import scala.collection.immutable.ListSet
+import se.stagehand.lib.Log
 
 /**
  * Generates unique id:s for components
  */
 object ID {
-  
+  private val log = Log.getLog(this.getClass())
   private var counter:Int = 0
   private var pool: Map[Int,StagehandComponent] = Map()
   private var prototypes: Map[Class[_],String] = Map()
   
   def unique:Int = {
     counter += 1
+    while (pool.contains(counter)) {
+      counter += 1
+    }
     counter
   }
   /**
@@ -20,7 +24,10 @@ object ID {
    * Classes stay loaded so that they can be instantiated by name.
    */
   def clearInstances {
-    pool = Map()
+    val items = pool.toIndexedSeq
+    items.foreach(i => {
+      pool -= i._1
+    })
     counter = 0
   }
   
@@ -29,7 +36,7 @@ object ID {
     if (!pool.contains(k)) {
       poolAdd(k,sc)
     } else {
-      throw new IllegalArgumentException("Component ID needs to be unique!")
+      throw new IllegalArgumentException("Component ID needs to be unique! (" + k + ")")
     }
     
   }
@@ -52,6 +59,7 @@ object ID {
     if (!p) {
       prototypes += (sc.getClass -> sc.componentName)
     }
+//    if (i >= counter) counter = i + 1 else counter += 1
     pool += (i -> sc)
   }
   def newInstance[T <: StagehandComponent](cname:String, id: Int):T = {

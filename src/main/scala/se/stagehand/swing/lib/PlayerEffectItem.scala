@@ -43,7 +43,14 @@ abstract class TargetedPlayerEffectItem[T <: Effect with Targets](e:T) extends B
     action = new Action("") {
       icon = ImageAssets.TARGET_ICON
       def apply {
-        NetworkedTargetPicker.pickTargets(effect)
+        NetworkedTargetPicker.pickTargets(s => {
+          effect.validTargets(s) 
+        }, t => {
+          effect.addTarget(t)
+        }, effect.targets,
+        t => {
+          effect.removeTarget(t)
+        })
       }
     }
     
